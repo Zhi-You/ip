@@ -40,7 +40,8 @@ public class Duke {
                 // Mark task as done
                 tasks[taskDoneIndex].markAsDone();
 
-                System.out.println("Nice! I've marked this task as done: \n  " + tasks[taskDoneIndex].getStatusIcon() + " " + tasks[taskDoneIndex].description);
+                System.out.println("Nice! I've marked this task as done: \n  " + tasks[taskDoneIndex].getStatusIcon()
+                        + " " + tasks[taskDoneIndex].description);
                 printHorizontalLine();
             } else {
                 // Store text into tasks
