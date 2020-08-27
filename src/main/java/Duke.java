@@ -8,10 +8,10 @@ public class Duke {
         System.out.println(horizontalLine);
     }
 
-    // To store text (tasks) entered by user and display them back when requested
+    // To allow Duke to handle the commands specified by the user
     public static void handleCommands() {
-        // To store tasks specified by user
-        String[] tasks = new String[100];
+        // Array of Task objects to store tasks specified by user
+        Task[] tasks = new Task[100];
         int taskCount = 0;
         Scanner in = new Scanner(System.in);
 
@@ -19,32 +19,42 @@ public class Duke {
 
         // Gets initial command
         command = in.nextLine();
+        printHorizontalLine();
 
-        // Continuously ask user for commands until user inputs "bye"
+        // Continuously asks user for commands until user inputs "bye"
         while (true) {
             // Exits loop when user inputs "bye"
             if (command.equalsIgnoreCase("bye")) {
                 break;
             } else if (command.equalsIgnoreCase("list")) {
                 // Displays stored tasks to user when requested
-                printHorizontalLine();
+                System.out.println("Here are the tasks in your list: ");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + ". " + tasks[i]);
+                    System.out.println((i + 1) + "." + tasks[i].getStatusIcon() + " " + tasks[i].description);
                 }
+                printHorizontalLine();
+            } else if (command.contains("done")) {
+                // Gets index of the task user specified to be done
+                int taskDoneIndex = Integer.parseInt(command.split(" ")[1]) - 1;
+
+                // Mark task as done
+                tasks[taskDoneIndex].markAsDone();
+
+                System.out.println("Nice! I've marked this task as done: \n  " + tasks[taskDoneIndex].getStatusIcon() + " " + tasks[taskDoneIndex].description);
                 printHorizontalLine();
             } else {
                 // Store text into tasks
-                tasks[taskCount] = command;
+                tasks[taskCount] = new Task(command);
                 taskCount++;
 
                 // Notifies user that task has been stored
-                printHorizontalLine();
                 System.out.println("added: " + command);
                 printHorizontalLine();
             }
 
             // Gets next command from user
             command = in.nextLine();
+            printHorizontalLine();
         }
     }
 
@@ -62,11 +72,10 @@ public class Duke {
         System.out.println("What can I do for you?");
         printHorizontalLine();
 
-        // Allows user to input commands for adding tasks and displaying them
+        // Allows user to get help from Duke
         handleCommands();
 
         // Prints exit message
-        printHorizontalLine();
         System.out.println("Bye. Hope to see you again soon!");
         printHorizontalLine();
     }
