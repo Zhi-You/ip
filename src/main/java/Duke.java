@@ -7,8 +7,9 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
 
-        String horizontalLine = "------------------------------------------------";
+        String horizontalLine = "________________________________________________";
 
+        // Initial skeletal version that greets the user and exits
         System.out.println(horizontalLine);
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
