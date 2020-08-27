@@ -2,27 +2,48 @@ import java.util.Scanner;
 
 public class Duke {
 
+    // Prints horizontal lines to wrap output for a clearer display
     public static void printHorizontalLine() {
         String horizontalLine = "________________________________________________";
         System.out.println(horizontalLine);
     }
 
-    // Echos commands entered by the user, and exits when the user types bye
-    public static void getInputAndEcho() {
+    // To store text (tasks) entered by user and display them back when requested
+    public static void handleCommands() {
+        // To store tasks specified by user
+        String[] tasks = new String[100];
+        int taskCount = 0;
         Scanner in = new Scanner(System.in);
+
         String command;
 
-        // Get initial input
+        // Gets initial command
         command = in.nextLine();
 
-        while (!command.equalsIgnoreCase("bye")) {
+        // Continuously ask user for commands until user inputs "bye"
+        while (true) {
+            // Exits loop when user inputs "bye"
+            if (command.equalsIgnoreCase("bye")) {
+                break;
+            } else if (command.equalsIgnoreCase("list")) {
+                // Displays stored tasks to user when requested
+                printHorizontalLine();
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println((i + 1) + ". " + tasks[i]);
+                }
+                printHorizontalLine();
+            } else {
+                // Store text into tasks
+                tasks[taskCount] = command;
+                taskCount++;
 
-            printHorizontalLine();
-            // Echo out the command entered by the user
-            System.out.println(command);
-            printHorizontalLine();
+                // Notifies user that task has been stored
+                printHorizontalLine();
+                System.out.println("added: " + command);
+                printHorizontalLine();
+            }
 
-            // Gets another input
+            // Gets next command from user
             command = in.nextLine();
         }
     }
@@ -35,12 +56,16 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
 
-        // Greet, Echo, Exit
+        // Prints welcome message
         printHorizontalLine();
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
         printHorizontalLine();
-        getInputAndEcho();
+
+        // Allows user to input commands for adding tasks and displaying them
+        handleCommands();
+
+        // Prints exit message
         printHorizontalLine();
         System.out.println("Bye. Hope to see you again soon!");
         printHorizontalLine();
