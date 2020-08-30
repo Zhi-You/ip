@@ -5,7 +5,6 @@ public class Duke {
     public static void handleCommands() {
         // Array of Task objects to store tasks specified by user
         Task[] tasks = new Task[100];
-        int taskCount = 0;
 
         // Handles formatting of display
         DisplayManager displayManager = new DisplayManager();
@@ -25,8 +24,8 @@ public class Duke {
                 displayManager.printHorizontalLine();
                 // Displays stored tasks to user when requested
                 System.out.println("Here are the tasks in your list: ");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + "." + tasks[i].getStatusIcon() + " " + tasks[i].description);
+                for (int i = 0; i < Task.getTaskCount(); i++) {
+                    System.out.println((i + 1) + "." + tasks[i].getStatusIcon() + " " + tasks[i].getDescription());
                 }
                 displayManager.printHorizontalLine();
             } else if (command.contains("done")) {
@@ -39,11 +38,10 @@ public class Duke {
                 // Notifies user that the task is marked as done
                 displayManager.printMessageToUser("Nice! I've marked this task as done: "
                         + System.lineSeparator() + "  " + tasks[taskDoneIndex].getStatusIcon()
-                        + " " + tasks[taskDoneIndex].description);
+                        + " " + tasks[taskDoneIndex].getDescription());
             } else {
                 // Store text into tasks
-                tasks[taskCount] = new Task(command);
-                taskCount++;
+                tasks[Task.getTaskCount()] = new Task(command);
 
                 // Notifies user that task has been stored
                 displayManager.printMessageToUser("added: " + command);
