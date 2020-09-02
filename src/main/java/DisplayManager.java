@@ -17,6 +17,17 @@ public class DisplayManager {
         printDivider();
     }
 
+    public void printTaskAddedMessage(Task task) {
+        printMessageToUser("Got it. I've added this task:" + System.lineSeparator()
+                + "  " + task + System.lineSeparator()
+                + "Now you have " + Task.getTaskCount()
+                + (Task.getTaskCount() == 1? " task in the list." : " tasks in the list."));
+    }
+
+    public void printMarkAsDoneMessage(Task task) {
+        printMessageToUser("Nice! I've marked this task as done: "
+                + System.lineSeparator() + "  " + task);
+    }
 
     String welcomeMessage = "Hello! I'm Duke" + System.lineSeparator()
             + "What can I do for you?";
