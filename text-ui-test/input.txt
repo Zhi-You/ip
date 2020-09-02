@@ -12,4 +12,5 @@ deadline do homework /by no idea :p
 list
 done 6
 done 7
+list
 bye

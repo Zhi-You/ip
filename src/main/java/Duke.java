@@ -1,10 +1,19 @@
 import java.util.Scanner;
 
 public class Duke {
+
+    private static final int MAX_NUMBER_OF_TASKS = 100;
+    private static final String COMMAND_EXIT = "bye";
+    private static final String COMMAND_LIST = "list";
+    private static final String COMMAND_MARK_TASK_DONE = "done";
+    private static final String COMMAND_TODO_TASK = "todo";
+    private static final String COMMAND_DEADLINE_TASK = "deadline";
+    private static final String COMMAND_EVENT_TASK = "event";
+
     // To allow Duke to handle the commands specified by the user
     private static void handleUserInputs() {
         // Array of Task objects to store tasks specified by user
-        Task[] tasks = new Task[100];
+        Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
 
         Scanner in = new Scanner(System.in);
         String userInput;
@@ -19,15 +28,15 @@ public class Duke {
             taskDescription = getTaskDescriptionFromInput(userInput);
 
             // Exits loop when user inputs "bye"
-            if (command.equals("bye")) {
+            if (command.equals(COMMAND_EXIT)) {
                 break;
             }
 
             switch (command) {
-            case "list":
+            case COMMAND_LIST:
                 DisplayManager.printList(tasks);
                 break;
-            case "done":
+            case COMMAND_MARK_TASK_DONE:
                 // Gets index of the task user specified to be done
                 int taskDoneIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
 
@@ -37,18 +46,18 @@ public class Duke {
                 // Notifies user that the task is marked as done
                 DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
                 break;
-            case "todo":
+            case COMMAND_TODO_TASK:
                 addTodoTask(tasks, taskDescription);
 
                 // Notifies user that task has been stored
                 DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
                 break;
-            case "deadline":
+            case COMMAND_DEADLINE_TASK:
                 addDeadlineTask(tasks, taskDescription);
 
                 DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
                 break;
-            case "event":
+            case COMMAND_EVENT_TASK:
                 addEventTask(tasks, taskDescription);
 
                 DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);

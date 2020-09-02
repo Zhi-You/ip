@@ -1,6 +1,9 @@
 public class DisplayManager {
 
     private static final String DIVIDER = "________________________________________________";
+    private static final String WELCOME_MESSAGE = "Hello! I'm Duke" + System.lineSeparator()
+            + "What can I do for you?";
+    private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
 
     // Prints horizontal lines to wrap output for a clearer display
     public static void printDivider() {
@@ -14,6 +17,7 @@ public class DisplayManager {
         printDivider();
     }
 
+    // Prints message to indicate user has added a task
     public static void printTaskAddedMessage(Task task) {
         printMessageToUser("Got it. I've added this task:" + System.lineSeparator()
                 + "  " + task + System.lineSeparator()
@@ -21,23 +25,20 @@ public class DisplayManager {
                 + (Task.getTaskCount() == 1? " task in the list." : " tasks in the list."));
     }
 
+    // Prints message to indicate user has marked a task as done
     public static void printMarkAsDoneMessage(Task task) {
         printMessageToUser("Nice! I've marked this task as done: "
                 + System.lineSeparator() + "  " + task);
     }
 
-    private static final String welcomeMessage = "Hello! I'm Duke" + System.lineSeparator()
-            + "What can I do for you?";
-
-
+    // Prints welcome message to user
     public static void printWelcomeMessage() {
-        printMessageToUser(welcomeMessage);
+        printMessageToUser(WELCOME_MESSAGE);
     }
 
-    private static final String exitMessage = "Bye. Hope to see you again soon!";
-
+    // Prints exit message to user
     public static void printExitMessage() {
-        printMessageToUser(exitMessage);
+        printMessageToUser(EXIT_MESSAGE);
     }
 
     // Prints list out for user when list command is received.
