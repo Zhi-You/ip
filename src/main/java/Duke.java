@@ -2,12 +2,9 @@ import java.util.Scanner;
 
 public class Duke {
     // To allow Duke to handle the commands specified by the user
-    public static void handleUserInputs() {
+    private static void handleUserInputs() {
         // Array of Task objects to store tasks specified by user
         Task[] tasks = new Task[100];
-
-        // Handles formatting of display
-        DisplayManager displayManager = new DisplayManager();
 
         Scanner in = new Scanner(System.in);
         String userInput;
@@ -28,7 +25,7 @@ public class Duke {
 
             switch (command) {
             case "list":
-                displayManager.printList(tasks);
+                DisplayManager.printList(tasks);
                 break;
             case "done":
                 // Gets index of the task user specified to be done
@@ -38,30 +35,33 @@ public class Duke {
                 tasks[taskDoneIndex].markAsDone();
 
                 // Notifies user that the task is marked as done
-                displayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
+                DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
                 break;
             case "todo":
                 addTodoTask(tasks, taskDescription);
 
                 // Notifies user that task has been stored
-                displayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+                DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
                 break;
             case "deadline":
                 addDeadlineTask(tasks, taskDescription);
 
-                displayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+                DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
                 break;
             case "event":
                 addEventTask(tasks, taskDescription);
 
-                displayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+                DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+                break;
+            default:
+                DisplayManager.printMessageToUser("Please enter the correct command");
                 break;
             }
         }
     }
 
     // Extracts command word from user inputs to decide what Duke will do
-    public static String getCommandFromInput(String userInput) {
+    private static String getCommandFromInput(String userInput) {
         // Split user input into different words to distinguish between command and task's information
         String[] inputParts = userInput.split(" ");
 
@@ -111,8 +111,6 @@ public class Duke {
     }
 
     public static void main(String[] args) {
-        DisplayManager displayManager = new DisplayManager();
-
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -121,12 +119,12 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
 
         // Prints welcome message
-        displayManager.printWelcomeMessage();
+        DisplayManager.printWelcomeMessage();
 
         // Allows user to get help from Duke
         handleUserInputs();
 
         // Prints exit message
-        displayManager.printExitMessage();
+        DisplayManager.printExitMessage();
     }
 }
