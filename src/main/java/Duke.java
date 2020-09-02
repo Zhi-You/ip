@@ -10,6 +10,24 @@ public class Duke {
     private static final String COMMAND_DEADLINE_TASK = "deadline";
     private static final String COMMAND_EVENT_TASK = "event";
 
+    public static void main(String[] args) {
+        String logo = " ____        _        \n"
+                + "|  _ \\ _   _| | _____ \n"
+                + "| | | | | | | |/ / _ \\\n"
+                + "| |_| | |_| |   <  __/\n"
+                + "|____/ \\__,_|_|\\_\\___|\n";
+        System.out.println("Hello from\n" + logo);
+
+        // Prints welcome message
+        DisplayManager.printWelcomeMessage();
+
+        // Allows user to get help from Duke
+        handleUserInputs();
+
+        // Prints exit message
+        DisplayManager.printExitMessage();
+    }
+
     // To allow Duke to handle the inputs specified by the user
     private static void handleUserInputs() {
         // Array of Task objects to store tasks specified by user
@@ -123,23 +141,5 @@ public class Duke {
 
         // Notifies user that task has been added
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
-    }
-
-    public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-
-        // Prints welcome message
-        DisplayManager.printWelcomeMessage();
-
-        // Allows user to get help from Duke
-        handleUserInputs();
-
-        // Prints exit message
-        DisplayManager.printExitMessage();
     }
 }
