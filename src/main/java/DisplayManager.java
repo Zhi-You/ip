@@ -3,18 +3,18 @@ public class DisplayManager {
     public DisplayManager() {
     }
 
-    private String horizontalLine = "________________________________________________";
+    private final String DIVIDER = "________________________________________________";
 
     // Prints horizontal lines to wrap output for a clearer display
-    public void printHorizontalLine() {
-        System.out.println(horizontalLine);
+    public void printDivider() {
+        System.out.println(DIVIDER);
     }
 
     // Prints message to user wrapped with horizontal lines for clear display
     public void printMessageToUser(String message) {
-        printHorizontalLine();
+        printDivider();
         System.out.println(message);
-        printHorizontalLine();
+        printDivider();
     }
 
 
@@ -30,5 +30,15 @@ public class DisplayManager {
 
     public void printExitMessage() {
         printMessageToUser(exitMessage);
+    }
+
+    // Prints list out for user when list command is received.
+    public void printList(Task[] tasks) {
+        printDivider();
+        System.out.println("Here are the tasks in your list: ");
+        for (int i = 0; i < Task.getTaskCount(); i++) {
+            System.out.println((i + 1) + "." + tasks[i]);
+        }
+        printDivider();
     }
 }

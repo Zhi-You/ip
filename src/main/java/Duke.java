@@ -10,27 +10,25 @@ public class Duke {
         DisplayManager displayManager = new DisplayManager();
 
         Scanner in = new Scanner(System.in);
+        String userInput;
         String command;
+        String taskDescription;
 
-        // Gets initial command
-        command = in.nextLine();
 
-        // Continuously asks user for commands until user inputs "bye"
+        // Continuously asks user for inputs until user exits
         while (true) {
+            userInput = in.nextLine();
+            command = getCommandFromInput(userInput);
+            taskDescription = getTaskDescriptionFromInput(userInput);
+
             // Exits loop when user inputs "bye"
             if (command.equalsIgnoreCase("bye")) {
                 break;
             } else if (command.equalsIgnoreCase("list")) {
-                displayManager.printHorizontalLine();
-                // Displays stored tasks to user when requested
-                System.out.println("Here are the tasks in your list: ");
-                for (int i = 0; i < Task.getTaskCount(); i++) {
-                    System.out.println((i + 1) + "." + tasks[i].getStatusIcon() + " " + tasks[i].getDescription());
-                }
-                displayManager.printHorizontalLine();
-            } else if (command.contains("done")) {
+                displayManager.printList(tasks);
+            } else if (command.equalsIgnoreCase("done")) {
                 // Gets index of the task user specified to be done
-                int taskDoneIndex = Integer.parseInt(command.split(" ")[1]) - 1;
+                int taskDoneIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
 
                 // Mark task as done
                 tasks[taskDoneIndex].markAsDone();
@@ -41,15 +39,36 @@ public class Duke {
                         + " " + tasks[taskDoneIndex].getDescription());
             } else {
                 // Store text into tasks
-                tasks[Task.getTaskCount()] = new Task(command);
+                tasks[Task.getTaskCount()] = new Task(taskDescription);
 
                 // Notifies user that task has been stored
-                displayManager.printMessageToUser("added: " + command);
+                displayManager.printMessageToUser("added: " + taskDescription);
             }
-
-            // Gets next command from user
-            command = in.nextLine();
         }
+    }
+
+
+    public static String getCommandFromInput(String userInput) {
+        String[] inputParts = userInput.split(" ");
+
+        // User's command can be found in the first word of user's inputs
+        String command = inputParts[0];
+
+        return command;
+    }
+
+    private static String getTaskDescriptionFromInput(String userInput) {
+        String[] inputParts = userInput.split(" ");
+
+        String taskDescription = "";
+
+        // Get the relevant parts from user input after the command (first word)
+        for (int i = 1; i < inputParts.length; i++) {
+            taskDescription = String.join(" ", taskDescription, inputParts[i]);
+        }
+        taskDescription = taskDescription.trim();
+        System.out.println(taskDescription);
+        return taskDescription;
     }
 
     public static void main(String[] args) {

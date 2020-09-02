@@ -7,10 +7,11 @@ public class Task {
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        isDone = false;
         taskCount++;
     }
 
+    // Class-level method to get taskCount
     public static int getTaskCount() {
         return taskCount;
     }
@@ -26,6 +27,11 @@ public class Task {
 
     // Setter method for isDone
     public void markAsDone() {
-        this.isDone = true;
+        isDone = true;
+    }
+
+    @Override
+    public String toString() {
+        return getStatusIcon() + " " + getDescription();
     }
 }
