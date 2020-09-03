@@ -4,6 +4,13 @@ public class DisplayManager {
     private static final String WELCOME_MESSAGE = "Hello! I'm Duke" + System.lineSeparator()
             + "What can I do for you?";
     private static final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
+    private static final String DUKE_LOGO = " ____        _        \n"
+            + "|  _ \\ _   _| | _____ \n"
+            + "| | | | | | | |/ / _ \\\n"
+            + "| |_| | |_| |   <  __/\n"
+            + "|____/ \\__,_|_|\\_\\___|\n";
+
+
 
     // Prints horizontal lines to wrap output for a clearer display
     public static void printDivider() {
@@ -29,6 +36,11 @@ public class DisplayManager {
     public static void printMarkAsDoneMessage(Task task) {
         printMessageToUser("Nice! I've marked this task as done: "
                 + System.lineSeparator() + "  " + task);
+    }
+
+    // Prints Duke's hello message along with his logo
+    public static void printDukeHelloMessage() {
+        System.out.println("Hello from\n" + DUKE_LOGO);
     }
 
     // Prints welcome message to user
