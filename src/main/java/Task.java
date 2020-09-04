@@ -1,4 +1,6 @@
 public class Task {
+    private static final String TICK_SYMBOL = "[\u2713]";
+    private static final String CROSS_SYMBOL = "[\u2718]";
     protected String description;
     protected boolean isDone;
 
@@ -17,7 +19,7 @@ public class Task {
     }
 
     public String getStatusIcon() {
-        return (isDone ? "[\u2713]" : "[\u2718]"); //return tick or X symbols
+        return (isDone ? TICK_SYMBOL : CROSS_SYMBOL); //return tick or X symbols
     }
 
     // Getter method for description
