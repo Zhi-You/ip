@@ -98,8 +98,6 @@ public class Duke {
     }
 
     // Extracts task information from user inputs to decide what kind of task to add to list
-
-    // if no taskDescription
     private static String getTaskDescriptionFromInput(String userInput) {
         // Splits user input into different words to distinguish between command and task's information
         String[] inputParts = userInput.split(" ");
@@ -116,7 +114,7 @@ public class Duke {
     }
 
     // Given an index, able to mark the task at that index in the tasks array to be done
-
+    // if no taskDescription
     // handle parsing to int error
     // handle index out of range error
     private static void markTaskDone(Task[] tasks, String taskDescription) {
@@ -131,7 +129,10 @@ public class Duke {
     }
 
     // Adds ToDos typed task into the tasks array
-    private static void addTodoTask(Task[] tasks, String taskDescription) {
+    private static void addTodoTask(Task[] tasks, String taskDescription) throws DukeException {
+        if (taskDescription == "") {
+            throw new DukeException(ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION);
+        }
         tasks[Task.getTaskCount()] = new Todo(taskDescription);
 
         // Notifies user that task has been added
@@ -139,7 +140,7 @@ public class Duke {
     }
 
     // Adds Deadline typed task into the tasks array
-
+    // if no taskDescription
     // formatting exception -ArrayIndexOutOfBoundsException
     private static void addDeadlineTask(Task[] tasks, String taskDescription) {
         // Splits user input to allow for retrieval of task details and deadline
@@ -154,7 +155,7 @@ public class Duke {
     }
 
     // Adds Event typed task into the tasks array
-
+    // if no taskDescription
     // formatting exception -ArrayIndexOutOfBoundsException
     private static void addEventTask(Task[] tasks, String taskDescription) {
         // Splits user input to allow for retrieval of task details and event timing

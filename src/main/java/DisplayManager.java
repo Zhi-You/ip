@@ -14,6 +14,14 @@ public class DisplayManager {
     private static final String SAD_FACE_EMOJI = "\u2639";
     private static final String ERROR_COMMAND_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! I'm sorry, but I don't know what that means :-(";
+    private static final String ERROR_TODO_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of a todo cannot be empty.";
+    private static final String ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of an event cannot be empty.";
+    private static final String ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of a deadline cannot be empty.";
+
+
 
 
     // Prints horizontal lines to wrap output for a clearer display
@@ -73,7 +81,8 @@ public class DisplayManager {
         switch (errorType) {
         case ErrorTypeManager.ERROR_UNKNOWN_COMMAND:
             printMessageToUser(ERROR_COMMAND_MESSAGE);
-
+        case ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_TODO_EMPTY_DESCRIPTION_MESSAGE);
         }
     }
 
