@@ -1,3 +1,5 @@
+package duke.task;
+
 public class Todo extends Task {
 
     private final String TODO_TASK_INDICATOR = "[T]";

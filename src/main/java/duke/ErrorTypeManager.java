@@ -1,3 +1,5 @@
+package duke;
+
 public class ErrorTypeManager {
 
     // Constant for error types
