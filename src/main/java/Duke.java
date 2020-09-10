@@ -10,6 +10,9 @@ public class Duke {
     private static final String COMMAND_DEADLINE_TASK = "deadline";
     private static final String COMMAND_EVENT_TASK = "event";
 
+    private static final boolean EXIT_COMMAND_IS_PASSED = true;
+    private static final boolean EXIT_COMMAND_IS_NOT_PASSED = false;
+
     public static void main(String[] args) {
         // Prints Duke's hello message and logo
         DisplayManager.printDukeHelloMessage();
@@ -24,8 +27,21 @@ public class Duke {
         DisplayManager.printExitMessage();
     }
 
-    // To allow Duke to handle the inputs specified by the user
+    // Handles the exception thrown by processUserInputs and repeat execution until user exits Duke
     private static void handleUserInputs() {
+        boolean exitCommandPassed = false;
+
+        while (!exitCommandPassed) {
+            try {
+                exitCommandPassed = processUserInputs();
+            } catch (DukeException e) {
+                DisplayManager.printErrorMessage(ErrorType.UNKNOWN_COMMAND);
+            }
+        }
+    }
+
+    // To allow Duke to get and process the inputs specified by the user
+    private static boolean processUserInputs() throws DukeException {
         // Array of Task objects to store tasks specified by user
         Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
 
@@ -42,7 +58,7 @@ public class Duke {
 
             // Exits loop when user inputs "bye"
             if (command.equals(COMMAND_EXIT)) {
-                break;
+                return EXIT_COMMAND_IS_PASSED;
             }
 
             // Duke reads user commands and either show task list, mark task as done or add task
@@ -63,21 +79,9 @@ public class Duke {
                 addEventTask(tasks, taskDescription);
                 break;
             default:
-                DisplayManager.printMessageToUser("Please enter the correct command");
-                break;
+                throw new DukeException();      // If input command (first word) is not recognized
             }
         }
-    }
-
-    private static void markTaskDone(Task[] tasks, String taskDescription) {
-        // Gets index of the task user specified to be done
-        int taskDoneIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
-
-        // Marks task as done
-        tasks[taskDoneIndex].markAsDone();
-
-        // Notifies user that the task is marked as done
-        DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
     }
 
     // Extracts command word from user inputs to decide what Duke will do
@@ -90,6 +94,8 @@ public class Duke {
     }
 
     // Extracts task information from user inputs to decide what kind of task to add to list
+
+    // if no taskDescription
     private static String getTaskDescriptionFromInput(String userInput) {
         // Splits user input into different words to distinguish between command and task's information
         String[] inputParts = userInput.split(" ");
@@ -105,6 +111,21 @@ public class Duke {
         return taskDescription;
     }
 
+    // Given an index, able to mark the task at that index in the tasks array to be done
+
+    // handle parsing to int error
+    // handle index out of range error
+    private static void markTaskDone(Task[] tasks, String taskDescription) {
+        // Gets index of the task user specified to be done
+        int taskDoneIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
+
+        // Marks task as done
+        tasks[taskDoneIndex].markAsDone();
+
+        // Notifies user that the task is marked as done
+        DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
+    }
+
     // Adds ToDos typed task into the tasks array
     private static void addTodoTask(Task[] tasks, String taskDescription) {
         tasks[Task.getTaskCount()] = new Todo(taskDescription);
@@ -113,7 +134,9 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
     }
 
-    // Adds Deadlines typed task into the tasks array
+    // Adds Deadline typed task into the tasks array
+
+    // formatting exception -ArrayIndexOutOfBoundsException
     private static void addDeadlineTask(Task[] tasks, String taskDescription) {
         // Splits user input to allow for retrieval of task details and deadline
         String[] deadlineTaskParts = taskDescription.split("/by");
@@ -126,7 +149,9 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
     }
 
-    // Adds Events typed task into the tasks array
+    // Adds Event typed task into the tasks array
+
+    // formatting exception -ArrayIndexOutOfBoundsException
     private static void addEventTask(Task[] tasks, String taskDescription) {
         // Splits user input to allow for retrieval of task details and event timing
         String[] eventTaskParts = taskDescription.split("/at");

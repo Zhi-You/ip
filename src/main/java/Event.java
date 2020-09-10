@@ -1,5 +1,7 @@
 public class Event extends Task {
 
+    private final String EVENT_TASK_INDICATOR = "[E]";
+
     protected String at;
 
     public Event(String description, String at) {
@@ -9,6 +11,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at:" + at + ")";
+        return EVENT_TASK_INDICATOR + super.toString() + " (at:" + at + ")";
     }
 }

@@ -10,6 +10,10 @@ public class DisplayManager {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
+    // Error messages
+    private static final String SAD_FACE_EMOJI = "\u2639";
+    private static final String UNKNOWN_COMMAND_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! I'm sorry, but I don't know what that means :-(";
 
 
     // Prints horizontal lines to wrap output for a clearer display
@@ -62,4 +66,14 @@ public class DisplayManager {
         }
         printDivider();
     }
+
+    // Prints different error messages for different exceptions encountered
+    public static void printErrorMessage(ErrorType error) {
+        switch (error) {
+        case UNKNOWN_COMMAND:
+            printMessageToUser(UNKNOWN_COMMAND_MESSAGE);
+
+        }
+    }
+
 }
