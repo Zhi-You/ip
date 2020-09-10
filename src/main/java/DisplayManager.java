@@ -10,7 +10,30 @@ public class DisplayManager {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
+    // Error messages
+    private static final String SAD_FACE_EMOJI = "\u2639";
+    private static final String ERROR_COMMAND_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! I'm sorry, but I don't know what that means :-(";
+    private static final String ERROR_TODO_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of a todo cannot be empty.";
+    private static final String ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of an event cannot be empty.";
+    private static final String ERROR_EVENT_WRONG_FORMAT_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The format to enter in an event task is \"<task> /at <event's time>\"";
+    private static final String ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of a deadline cannot be empty.";
+    private static final String ERROR_DEADLINE_WRONG_FORMAT_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The format to enter in a deadline task is \"<task> /by <deadline>\"";
+    private static final String ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of a done cannot be empty.";
+    private static final String ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The task to mark as done must be an existing task";
+    private static final String ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! Use numbers to specify which task to be marked as done";
 
+
+
+    /* DisplayManager methods */
 
     // Prints horizontal lines to wrap output for a clearer display
     public static void printDivider() {
@@ -62,4 +85,38 @@ public class DisplayManager {
         }
         printDivider();
     }
+
+    // Prints different error messages for different exceptions encountered
+    public static void printErrorMessage(String errorType) {
+        switch (errorType) {
+        case ErrorTypeManager.ERROR_UNKNOWN_COMMAND:
+            printMessageToUser(ERROR_COMMAND_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_TODO_EMPTY_DESCRIPTION_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT:
+            printMessageToUser(ERROR_EVENT_WRONG_FORMAT_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT:
+            printMessageToUser(ERROR_DEADLINE_WRONG_FORMAT_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX:
+            printMessageToUser(ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER:
+            printMessageToUser(ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE);
+            break;
+        }
+    }
+
 }
