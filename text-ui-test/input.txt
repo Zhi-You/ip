@@ -13,4 +13,19 @@ list
 done 6
 done 7
 list
+wrong command
+todo
+event
+event /at
+event /at Fri 2pm
+event testA /at
+deadline
+deadline /by
+deadline /by tmr 2pm
+deadline testB /by
+done
+done -1
+done 50
+done a
+list
 bye

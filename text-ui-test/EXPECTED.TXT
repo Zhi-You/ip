@@ -95,5 +95,58 @@ Here are the tasks in your list:
 8.[D][✘] do homework  (by: no idea :p)
 ________________________________________________
 ________________________________________________
+☹ OOPS!!! I'm sorry, but I don't know what that means :-(
+________________________________________________
+________________________________________________
+☹ OOPS!!! The description of a todo cannot be empty.
+________________________________________________
+________________________________________________
+☹ OOPS!!! The description of an event cannot be empty.
+________________________________________________
+________________________________________________
+☹ OOPS!!! The format to enter in an event task is "<task> /at <event's time>"
+________________________________________________
+________________________________________________
+☹ OOPS!!! The description of an event cannot be empty.
+________________________________________________
+________________________________________________
+☹ OOPS!!! The format to enter in an event task is "<task> /at <event's time>"
+________________________________________________
+________________________________________________
+☹ OOPS!!! The description of a deadline cannot be empty.
+________________________________________________
+________________________________________________
+☹ OOPS!!! The format to enter in a deadline task is "<task> /by <deadline>"
+________________________________________________
+________________________________________________
+☹ OOPS!!! The description of a deadline cannot be empty.
+________________________________________________
+________________________________________________
+☹ OOPS!!! The format to enter in a deadline task is "<task> /by <deadline>"
+________________________________________________
+________________________________________________
+☹ OOPS!!! The description of a done cannot be empty.
+________________________________________________
+________________________________________________
+☹ OOPS!!! The task to mark as done must be an existing task
+________________________________________________
+________________________________________________
+☹ OOPS!!! The task to mark as done must be an existing task
+________________________________________________
+________________________________________________
+☹ OOPS!!! Use numbers to specify which task to be marked as done
+________________________________________________
+________________________________________________
+Here are the tasks in your list: 
+1.[T][✓] read book
+2.[D][✘] return book  (by: June 6th)
+3.[E][✘] project meeting  (at: Aug 6th 2-4pm)
+4.[T][✓] join sports club
+5.[T][✘] borrow book
+6.[D][✓] return book  (by: Sunday)
+7.[E][✓] project meeting  (at: Mon 2-4pm)
+8.[D][✘] do homework  (by: no idea :p)
+________________________________________________
+________________________________________________
 Bye. Hope to see you again soon!
 ________________________________________________
