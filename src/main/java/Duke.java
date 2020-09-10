@@ -15,7 +15,7 @@ public class Duke {
     // Constant for user's exit status
     private static final boolean EXIT_COMMAND_IS_PASSED = true;
 
-
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
         // Prints Duke's hello message and logo
@@ -39,6 +39,7 @@ public class Duke {
         boolean exitCommandPassed = false;
 
         while (!exitCommandPassed) {
+            // Catch any exceptions that are thrown when processing user inputs
             try {
                 exitCommandPassed = processUserInputs(tasks);
             } catch (DukeException e) {
@@ -49,14 +50,13 @@ public class Duke {
 
     // To allow Duke to get and process the inputs specified by the user
     private static boolean processUserInputs(Task[] tasks) throws DukeException {
-        Scanner in = new Scanner(System.in);
         String userInput;
         String command;
         String taskDescription;
 
         // Continuously asks user for inputs until user exits
         while (true) {
-            userInput = in.nextLine();
+            userInput = SCANNER.nextLine();
             command = getCommandFromInput(userInput);
             taskDescription = getTaskDescriptionFromInput(userInput);
 
@@ -71,7 +71,7 @@ public class Duke {
                 DisplayManager.printList(tasks);
                 break;
             case COMMAND_MARK_TASK_DONE:
-                markTaskDone(tasks, taskDescription);
+                markTaskAsDone(tasks, taskDescription);
                 break;
             case COMMAND_TODO_TASK:
                 addTodoTask(tasks, taskDescription);
@@ -114,15 +114,29 @@ public class Duke {
     }
 
     // Given an index, able to mark the task at that index in the tasks array to be done
-    // if no taskDescription
-    // handle parsing to int error
-    // handle index out of range error
-    private static void markTaskDone(Task[] tasks, String taskDescription) {
-        // Gets index of the task user specified to be done
-        int taskDoneIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
+    private static void markTaskAsDone(Task[] tasks, String taskDescription) throws DukeException {
+        // Catches the exception whereby user did not input any description after done command
+        if (taskDescription.isBlank()) {
+            throw new DukeException(ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION);
+        }
 
-        // Marks task as done
-        tasks[taskDoneIndex].markAsDone();
+        int taskDoneIndex;
+
+        // Gets index of the task user specified to be done
+        // Catch exceptions whereby if index specified is not in numeric form
+        try {
+            taskDoneIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
+        } catch (NumberFormatException e) {
+            throw new DukeException(ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER);
+        }
+
+        // Marks specified task as done
+        // Catch exceptions whereby user specified a negative index or an index without a task stored yet
+        try {
+            tasks[taskDoneIndex].markAsDone();
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+            throw new DukeException(ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX);
+        }
 
         // Notifies user that the task is marked as done
         DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
@@ -130,9 +144,11 @@ public class Duke {
 
     // Adds ToDos typed task into the tasks array
     private static void addTodoTask(Task[] tasks, String taskDescription) throws DukeException {
-        if (taskDescription == "") {
+        // Catches the exception whereby user did not input any description after to_do command
+        if (taskDescription.isBlank()) {
             throw new DukeException(ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION);
         }
+
         tasks[Task.getTaskCount()] = new Todo(taskDescription);
 
         // Notifies user that task has been added
@@ -140,30 +156,64 @@ public class Duke {
     }
 
     // Adds Deadline typed task into the tasks array
-    // if no taskDescription
-    // formatting exception -ArrayIndexOutOfBoundsException
-    private static void addDeadlineTask(Task[] tasks, String taskDescription) {
-        // Splits user input to allow for retrieval of task details and deadline
-        String[] deadlineTaskParts = taskDescription.split("/by");
-        String description = deadlineTaskParts[0];
-        String by = deadlineTaskParts[1];
+    private static void addDeadlineTask(Task[] tasks, String taskDescription) throws DukeException {
+        // Catches the exception whereby user did not input any description after deadline command
+        if (taskDescription.isBlank()) {
+            throw new DukeException(ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION);
+        }
 
-        tasks[Task.getTaskCount()] = new Deadline(description, by);
+        // Splits user input into task details and deadline
+        String[] deadlineTaskParts = taskDescription.split("/by");
+        String deadlineTaskDescription;
+        String deadline;
+        // Catches exceptions where user does not specify deadline in the correct format
+        // Also catches specific input of: "deadline /by " where both description and deadline are empty
+        try {
+            deadlineTaskDescription = deadlineTaskParts[0];
+            deadline = deadlineTaskParts[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new DukeException(ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT);
+        }
+
+        // Catches the exception whereby user did not input any task description but has a deadline
+        // Sample input that will get caught: "deadline /by tmr"
+        if (deadlineTaskDescription.isBlank()) {
+            throw new DukeException(ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION);
+        }
+
+        tasks[Task.getTaskCount()] = new Deadline(deadlineTaskDescription, deadline);
 
         // Notifies user that task has been added
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
     }
 
     // Adds Event typed task into the tasks array
-    // if no taskDescription
-    // formatting exception -ArrayIndexOutOfBoundsException
-    private static void addEventTask(Task[] tasks, String taskDescription) {
-        // Splits user input to allow for retrieval of task details and event timing
-        String[] eventTaskParts = taskDescription.split("/at");
-        String description = eventTaskParts[0];
-        String at = eventTaskParts[1];
+    private static void addEventTask(Task[] tasks, String taskDescription) throws DukeException {
+        // Catches the exception whereby user did not input any description after event command
+        if (taskDescription.isBlank()) {
+            throw new DukeException(ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION);
+        }
 
-        tasks[Task.getTaskCount()] = new Event(description, at);
+        // Splits user input into task details and event timing
+        String[] eventTaskParts = taskDescription.split("/at");
+        String eventTaskDescription;
+        String eventTime;
+        // Catches exceptions where user does not specify event in the correct format
+        // Also catches specific input of: "event /at " where both description and event time are empty
+        try {
+            eventTaskDescription = eventTaskParts[0];
+            eventTime = eventTaskParts[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new DukeException(ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT);
+        }
+
+        // Catches the exception whereby user did not input any task description but has an event time
+        // Sample input that will get caught: "event /at tmr"
+        if (eventTaskDescription.isBlank()) {
+            throw new DukeException(ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION);
+        }
+
+        tasks[Task.getTaskCount()] = new Event(eventTaskDescription, eventTime);
 
         // Notifies user that task has been added
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
