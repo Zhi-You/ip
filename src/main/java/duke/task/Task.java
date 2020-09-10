@@ -1,3 +1,5 @@
+package duke.task;
+
 public class Task {
     private static final String TICK_SYMBOL = "[\u2713]";
     private static final String CROSS_SYMBOL = "[\u2718]";

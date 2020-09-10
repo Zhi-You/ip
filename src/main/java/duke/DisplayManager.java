@@ -1,3 +1,7 @@
+package duke;
+
+import duke.task.Task;
+
 public class DisplayManager {
 
     private static final String DIVIDER = "________________________________________________";
@@ -33,7 +37,7 @@ public class DisplayManager {
 
 
 
-    /* DisplayManager methods */
+    /* duke.DisplayManager methods */
 
     // Prints horizontal lines to wrap output for a clearer display
     public static void printDivider() {
@@ -61,7 +65,7 @@ public class DisplayManager {
                 + System.lineSeparator() + "  " + task);
     }
 
-    // Prints Duke's hello message along with his logo
+    // Prints duke.Duke's hello message along with his logo
     public static void printDukeHelloMessage() {
         System.out.println("Hello from\n" + DUKE_LOGO);
     }
