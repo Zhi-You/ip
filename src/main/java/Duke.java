@@ -3,6 +3,8 @@ import java.util.Scanner;
 public class Duke {
 
     private static final int MAX_NUMBER_OF_TASKS = 100;
+
+    // Constants for commands
     private static final String COMMAND_EXIT = "bye";
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_MARK_TASK_DONE = "done";
@@ -10,8 +12,10 @@ public class Duke {
     private static final String COMMAND_DEADLINE_TASK = "deadline";
     private static final String COMMAND_EVENT_TASK = "event";
 
+    // Constant for user's exit status
     private static final boolean EXIT_COMMAND_IS_PASSED = true;
-    private static final boolean EXIT_COMMAND_IS_NOT_PASSED = false;
+
+
 
     public static void main(String[] args) {
         // Prints Duke's hello message and logo
@@ -29,22 +33,22 @@ public class Duke {
 
     // Handles the exception thrown by processUserInputs and repeat execution until user exits Duke
     private static void handleUserInputs() {
+        // Array of Task objects to store tasks specified by user
+        Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
+
         boolean exitCommandPassed = false;
 
         while (!exitCommandPassed) {
             try {
-                exitCommandPassed = processUserInputs();
+                exitCommandPassed = processUserInputs(tasks);
             } catch (DukeException e) {
-                DisplayManager.printErrorMessage(ErrorType.UNKNOWN_COMMAND);
+                DisplayManager.printErrorMessage(e.getMessage());
             }
         }
     }
 
     // To allow Duke to get and process the inputs specified by the user
-    private static boolean processUserInputs() throws DukeException {
-        // Array of Task objects to store tasks specified by user
-        Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
-
+    private static boolean processUserInputs(Task[] tasks) throws DukeException {
         Scanner in = new Scanner(System.in);
         String userInput;
         String command;
@@ -79,7 +83,7 @@ public class Duke {
                 addEventTask(tasks, taskDescription);
                 break;
             default:
-                throw new DukeException();      // If input command (first word) is not recognized
+                throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_COMMAND);
             }
         }
     }
