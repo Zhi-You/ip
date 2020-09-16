@@ -20,6 +20,10 @@ public class Task {
         return taskCount;
     }
 
+    public static void decrementTaskCount() {
+        taskCount--;
+    }
+
     public String getStatusIcon() {
         return (isDone ? TICK_SYMBOL : CROSS_SYMBOL); //return tick or X symbols
     }

@@ -13,7 +13,7 @@ public class Duke {
     private static final String COMMAND_EXIT = "bye";
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_MARK_TASK_DONE = "done";
-    //private static final String COMMAND_DELETE_TASK = "delete";
+    private static final String COMMAND_DELETE_TASK = "delete";
     private static final String COMMAND_TODO_TASK = "todo";
     private static final String COMMAND_DEADLINE_TASK = "deadline";
     private static final String COMMAND_EVENT_TASK = "event";
@@ -88,6 +88,9 @@ public class Duke {
             case COMMAND_EVENT_TASK:
                 addEventTask(tasks, taskDescription);
                 break;
+            case COMMAND_DELETE_TASK:
+                deleteTask(tasks, taskDescription);
+                break;
             default:
                 throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_COMMAND);
             }
@@ -119,7 +122,7 @@ public class Duke {
         return taskDescription;
     }
 
-    // Given an index, able to mark the task at that index in the tasks array to be done
+    // Given an index, able to mark the task at that index in the tasks arraylist to be done
     private static void markTaskAsDone(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after done command
         if (taskDescription.isBlank()) {
@@ -148,7 +151,39 @@ public class Duke {
         DisplayManager.printMarkAsDoneMessage(tasks.get(taskDoneIndex));
     }
 
-    // Adds ToDos typed task into the tasks array
+    // Given an index, able to delete the task at that index in the tasks arraylist
+    private static void deleteTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
+        // Catches the exception whereby user did not input any description after delete command
+        if (taskDescription.isBlank()) {
+            throw new DukeException(ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION);
+        }
+
+        int taskToDeleteIndex;
+
+        // Gets index of the task user specified to be deleted
+        // Catch exceptions whereby if index specified is not in numeric form
+        try {
+            taskToDeleteIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
+        } catch (NumberFormatException e) {
+            throw new DukeException(ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER);
+        }
+
+        // Delete specified task
+        // Catch exceptions whereby user specified a negative index or an index without a task stored yet
+        try {
+            // Notifies user that the task is deleted.
+            // Prints message using the task instance before it is deleted.
+            DisplayManager.printTaskDeletedMessage(tasks.get(taskToDeleteIndex));
+            tasks.remove(taskToDeleteIndex);
+        } catch (IndexOutOfBoundsException e) {
+            throw new DukeException(ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX);
+        }
+
+        // Updates current count of tasks in Task ArrayList
+        Task.decrementTaskCount();
+    }
+
+    // Adds ToDos typed task into the tasks arraylist
     private static void addTodoTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after to_do command
         if (taskDescription.isBlank()) {
@@ -161,7 +196,7 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 
-    // Adds Deadline typed task into the tasks array
+    // Adds Deadline typed task into the tasks arraylist
     private static void addDeadlineTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after deadline command
         if (taskDescription.isBlank()) {
@@ -193,7 +228,7 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 
-    // Adds Event typed task into the tasks array
+    // Adds Event typed task into the tasks arraylist
     private static void addEventTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after event command
         if (taskDescription.isBlank()) {

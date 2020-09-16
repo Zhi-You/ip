@@ -33,9 +33,15 @@ public class DisplayManager {
     private static final String ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The description of a done cannot be empty.";
     private static final String ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
-            + " OOPS!!! The task to mark as done must be an existing task";
+            + " OOPS!!! The task to mark as done must be an existing task.";
     private static final String ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
-            + " OOPS!!! Use numbers to specify which task to be marked as done";
+            + " OOPS!!! Use numbers to specify which task to be marked as done.";
+    private static final String ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of a delete cannot be empty.";
+    private static final String ERROR_DELETETASK_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! Use numbers to specify which task to be deleted.";
+    private static final String ERROR_DELETETASK_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The task to be deleted must be an existing task.";
     private static final String UNEXPECTED_ERROR = "An unidentified error has occurred! Please take note!";
 
 
@@ -58,8 +64,20 @@ public class DisplayManager {
     public static void printTaskAddedMessage(Task task) {
         printMessageToUser("Got it. I've added this task:" + System.lineSeparator()
                 + "  " + task + System.lineSeparator()
-                + "Now you have " + Task.getTaskCount()
-                + (Task.getTaskCount() == 1? " task in the list." : " tasks in the list."));
+                + printTaskCount(false));
+    }
+
+    // Prints message to indicate user has deleted a task
+    public static void printTaskDeletedMessage (Task task) {
+        printMessageToUser("Noted. I've removed this task: " + System.lineSeparator()
+                + "  " + task + System.lineSeparator()
+                + printTaskCount(true));
+    }
+
+    // Prints the current count of the tasks in the task ArrayList
+    public static String printTaskCount(boolean isDeleting) {
+        return("Now you have " + (isDeleting == true? Task.getTaskCount() - 1 : Task.getTaskCount())
+                + (Task.getTaskCount() == 1 ? " task in the list." : " tasks in the list."));
     }
 
     // Prints message to indicate user has marked a task as done
@@ -122,6 +140,15 @@ public class DisplayManager {
             break;
         case ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER:
             printMessageToUser(ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER:
+            printMessageToUser(ERROR_DELETETASK_NOT_NUMBER_MESSAGE);
+            break;
+        case ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX:
+            printMessageToUser(ERROR_DELETETASK_WRONG_INDEX_MESSAGE);
             break;
         default:
             printMessageToUser(UNEXPECTED_ERROR);
