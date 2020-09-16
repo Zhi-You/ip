@@ -2,7 +2,7 @@ package duke;
 
 public class ErrorTypeManager {
 
-    // Constant for error types
+    // Constants for error types
     public static final String ERROR_UNKNOWN_COMMAND = "error_command";
     public static final String ERROR_TODO_EMPTY_DESCRIPTION = "error_todo_empty_description";
     public static final String ERROR_EVENT_EMPTY_DESCRIPTION = "error_event_empty_description";
@@ -13,6 +13,4 @@ public class ErrorTypeManager {
             = "error_markTaskDone_empty_description";
     public static final String ERROR_MARKTASKASDONE_WRONG_INDEX = "error_markTaskAsDone_wrong_index";
     public static final String ERROR_MARKTASKASDONE_NOT_NUMBER = "error_markTaskAsDone_not_number";
-
-
 }

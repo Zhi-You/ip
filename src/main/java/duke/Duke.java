@@ -5,16 +5,15 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
-
-    private static final int MAX_NUMBER_OF_TASKS = 100;
-
     // Constants for commands
     private static final String COMMAND_EXIT = "bye";
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_MARK_TASK_DONE = "done";
+    //private static final String COMMAND_DELETE_TASK = "delete";
     private static final String COMMAND_TODO_TASK = "todo";
     private static final String COMMAND_DEADLINE_TASK = "deadline";
     private static final String COMMAND_EVENT_TASK = "event";
@@ -25,23 +24,23 @@ public class Duke {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // Prints duke.Duke's hello message and logo
+        // Prints Duke's hello message and logo
         DisplayManager.printDukeHelloMessage();
 
         // Prints welcome message
         DisplayManager.printWelcomeMessage();
 
-        // Allows user to get help from duke.Duke
+        // Allows user to get help from Duke
         handleUserInputs();
 
         // Prints exit message
         DisplayManager.printExitMessage();
     }
 
-    // Handles the exception thrown by processUserInputs and repeat execution until user exits duke.Duke
+    // Handles the exception thrown by processUserInputs and repeat execution until user exits Duke
     private static void handleUserInputs() {
-        // Array of duke.task.Task objects to store tasks specified by user
-        Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
+        // ArrayList of Task objects to dynamically store tasks specified by user
+        ArrayList<Task> tasks = new ArrayList<>();
 
         boolean exitCommandPassed = false;
 
@@ -55,8 +54,8 @@ public class Duke {
         }
     }
 
-    // To allow duke.Duke to get and process the inputs specified by the user
-    private static boolean processUserInputs(Task[] tasks) throws DukeException {
+    // To allow Duke to get and process the inputs specified by the user
+    private static boolean processUserInputs(ArrayList<Task> tasks) throws DukeException {
         String userInput;
         String command;
         String taskDescription;
@@ -72,7 +71,7 @@ public class Duke {
                 return EXIT_COMMAND_IS_PASSED;
             }
 
-            // duke.Duke reads user commands and either show task list, mark task as done or add task
+            // Duke reads user commands and either show task list, mark task as done or add task
             switch (command) {
             case COMMAND_LIST:
                 DisplayManager.printList(tasks);
@@ -95,7 +94,7 @@ public class Duke {
         }
     }
 
-    // Extracts command word from user inputs to decide what duke.Duke will do
+    // Extracts command word from user inputs to decide what Duke will do
     private static String getCommandFromInput(String userInput) {
         // Splits user input into different words to distinguish between command and task's information
         String[] inputParts = userInput.split(" ");
@@ -121,7 +120,7 @@ public class Duke {
     }
 
     // Given an index, able to mark the task at that index in the tasks array to be done
-    private static void markTaskAsDone(Task[] tasks, String taskDescription) throws DukeException {
+    private static void markTaskAsDone(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after done command
         if (taskDescription.isBlank()) {
             throw new DukeException(ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION);
@@ -140,30 +139,30 @@ public class Duke {
         // Marks specified task as done
         // Catch exceptions whereby user specified a negative index or an index without a task stored yet
         try {
-            tasks[taskDoneIndex].markAsDone();
-        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+            tasks.get(taskDoneIndex).markAsDone();
+        } catch (IndexOutOfBoundsException e) {
             throw new DukeException(ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX);
         }
 
         // Notifies user that the task is marked as done
-        DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
+        DisplayManager.printMarkAsDoneMessage(tasks.get(taskDoneIndex));
     }
 
     // Adds ToDos typed task into the tasks array
-    private static void addTodoTask(Task[] tasks, String taskDescription) throws DukeException {
+    private static void addTodoTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after to_do command
         if (taskDescription.isBlank()) {
             throw new DukeException(ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION);
         }
 
-        tasks[Task.getTaskCount()] = new Todo(taskDescription);
+        tasks.add(new Todo(taskDescription));
 
         // Notifies user that task has been added
-        DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+        DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 
-    // Adds duke.task.Deadline typed task into the tasks array
-    private static void addDeadlineTask(Task[] tasks, String taskDescription) throws DukeException {
+    // Adds Deadline typed task into the tasks array
+    private static void addDeadlineTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after deadline command
         if (taskDescription.isBlank()) {
             throw new DukeException(ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION);
@@ -188,14 +187,14 @@ public class Duke {
             throw new DukeException(ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION);
         }
 
-        tasks[Task.getTaskCount()] = new Deadline(deadlineTaskDescription, deadline);
+        tasks.add(new Deadline(deadlineTaskDescription, deadline));
 
         // Notifies user that task has been added
-        DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+        DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 
-    // Adds duke.task.Event typed task into the tasks array
-    private static void addEventTask(Task[] tasks, String taskDescription) throws DukeException {
+    // Adds Event typed task into the tasks array
+    private static void addEventTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after event command
         if (taskDescription.isBlank()) {
             throw new DukeException(ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION);
@@ -220,9 +219,9 @@ public class Duke {
             throw new DukeException(ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION);
         }
 
-        tasks[Task.getTaskCount()] = new Event(eventTaskDescription, eventTime);
+        tasks.add(new Event(eventTaskDescription, eventTime));
 
         // Notifies user that task has been added
-        DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
+        DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 }

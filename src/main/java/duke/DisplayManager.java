@@ -2,6 +2,8 @@ package duke;
 
 import duke.task.Task;
 
+import java.util.ArrayList;
+
 public class DisplayManager {
 
     private static final String DIVIDER = "________________________________________________";
@@ -34,6 +36,7 @@ public class DisplayManager {
             + " OOPS!!! The task to mark as done must be an existing task";
     private static final String ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! Use numbers to specify which task to be marked as done";
+    private static final String UNEXPECTED_ERROR = "An unidentified error has occurred! Please take note!";
 
 
 
@@ -81,11 +84,11 @@ public class DisplayManager {
     }
 
     // Prints list out for user when list command is received.
-    public static void printList(Task[] tasks) {
+    public static void printList(ArrayList<Task> tasks) {
         printDivider();
         System.out.println("Here are the tasks in your list: ");
         for (int i = 0; i < Task.getTaskCount(); i++) {
-            System.out.println((i + 1) + "." + tasks[i]);
+            System.out.println((i + 1) + "." + tasks.get(i));
         }
         printDivider();
     }
@@ -119,6 +122,9 @@ public class DisplayManager {
             break;
         case ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER:
             printMessageToUser(ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE);
+            break;
+        default:
+            printMessageToUser(UNEXPECTED_ERROR);
             break;
         }
     }
