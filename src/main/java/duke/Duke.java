@@ -25,7 +25,7 @@ public class Duke {
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // Prints duke.Duke's hello message and logo
         DisplayManager.printDukeHelloMessage();
 
@@ -40,12 +40,16 @@ public class Duke {
     }
 
     // Handles the exception thrown by processUserInputs and repeat execution until user exits duke.Duke
-    private static void handleUserInputs() throws IOException {
+    private static void handleUserInputs() {
         // Array of duke.task.Task objects to store tasks specified by user
         Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
 
         // Load tasks data when Duke starts up
-        DataManager.loadTasksData(tasks);
+        try {
+            DataManager.loadTasksData(tasks);
+        } catch (IOException e) {
+            DisplayManager.printFileErrorMessage();
+        }
 
         boolean exitCommandPassed = false;
 
@@ -54,7 +58,9 @@ public class Duke {
             try {
                 exitCommandPassed = processUserInputs(tasks);
             } catch (DukeException e) {
-                DisplayManager.printErrorMessage(e.getMessage());
+                DisplayManager.printDukeErrorMessage(e.getMessage());
+            } catch (IOException e) {
+                DisplayManager.printFileErrorMessage();
             }
         }
     }
@@ -96,6 +102,7 @@ public class Duke {
             default:
                 throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_COMMAND);
             }
+
             // Saves tasks whenever the task list changes
             DataManager.saveTasksData(tasks);
         }

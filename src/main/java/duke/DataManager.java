@@ -56,7 +56,7 @@ public class DataManager {
                 taskType = getTaskType(task.charAt(TASK_TYPE_INDICATOR));
             } catch (DukeException e) {
                 // Print error message to user and terminate loading of data file if task type is not found
-                DisplayManager.printErrorMessage(e.getMessage());
+                DisplayManager.printDukeErrorMessage(e.getMessage());
                 return;
             }
 

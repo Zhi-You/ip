@@ -14,7 +14,7 @@ public class DisplayManager {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
-    // Error messages
+    // Duke Error messages
     private static final String SAD_FACE_EMOJI = "\u2639";
     private static final String ERROR_COMMAND_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! I'm sorry, but I don't know what that means :-(";
@@ -37,6 +37,10 @@ public class DisplayManager {
     private static final String ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE =
             "Unidentified task type! Load file fail.";
 
+
+    // File Error message
+    private static final String FILE_ERROR_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! Something is wrong with the save file. Please check again";
 
     /* duke.DisplayManager methods */
 
@@ -92,7 +96,7 @@ public class DisplayManager {
     }
 
     // Prints different error messages for different exceptions encountered
-    public static void printErrorMessage(String errorType) {
+    public static void printDukeErrorMessage(String errorType) {
         switch (errorType) {
         case ErrorTypeManager.ERROR_UNKNOWN_COMMAND:
             printMessageToUser(ERROR_COMMAND_MESSAGE);
@@ -127,7 +131,11 @@ public class DisplayManager {
         default:
             printMessageToUser("Unidentified error.");
             break;
-
         }
+    }
+
+    // Whenever there is an issue saving or loading from file
+    public static void printFileErrorMessage() {
+        printMessageToUser(FILE_ERROR_MESSAGE);
     }
 }
