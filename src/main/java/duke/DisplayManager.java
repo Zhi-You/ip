@@ -34,7 +34,8 @@ public class DisplayManager {
             + " OOPS!!! The task to mark as done must be an existing task";
     private static final String ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! Use numbers to specify which task to be marked as done";
-
+    private static final String ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE =
+            "Unidentified task type! Load file fail.";
 
 
     /* duke.DisplayManager methods */
@@ -120,6 +121,13 @@ public class DisplayManager {
         case ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER:
             printMessageToUser(ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE);
             break;
+        case ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR:
+            printMessageToUser(ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE);
+            break;
+        default:
+            printMessageToUser("Unidentified error.");
+            break;
+
         }
     }
 }

@@ -13,6 +13,7 @@ public class ErrorTypeManager {
             = "error_markTaskDone_empty_description";
     public static final String ERROR_MARKTASKASDONE_WRONG_INDEX = "error_markTaskAsDone_wrong_index";
     public static final String ERROR_MARKTASKASDONE_NOT_NUMBER = "error_markTaskAsDone_not_number";
+    public static final String ERROR_UNKNOWN_TASK_INDICATOR = "error_unknownTaskIndicator";
 
 
 }

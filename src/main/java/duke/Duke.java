@@ -5,6 +5,7 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.Todo;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -24,7 +25,7 @@ public class Duke {
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Prints duke.Duke's hello message and logo
         DisplayManager.printDukeHelloMessage();
 
@@ -39,9 +40,12 @@ public class Duke {
     }
 
     // Handles the exception thrown by processUserInputs and repeat execution until user exits duke.Duke
-    private static void handleUserInputs() {
+    private static void handleUserInputs() throws IOException {
         // Array of duke.task.Task objects to store tasks specified by user
         Task[] tasks = new Task[MAX_NUMBER_OF_TASKS];
+
+        // Load tasks data when Duke starts up
+        DataManager.loadTasksData(tasks);
 
         boolean exitCommandPassed = false;
 
@@ -56,7 +60,7 @@ public class Duke {
     }
 
     // To allow duke.Duke to get and process the inputs specified by the user
-    private static boolean processUserInputs(Task[] tasks) throws DukeException {
+    private static boolean processUserInputs(Task[] tasks) throws DukeException, IOException {
         String userInput;
         String command;
         String taskDescription;
@@ -92,6 +96,8 @@ public class Duke {
             default:
                 throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_COMMAND);
             }
+            // Saves tasks whenever the task list changes
+            DataManager.saveTasksData(tasks);
         }
     }
 
