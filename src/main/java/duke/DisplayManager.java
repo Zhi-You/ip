@@ -34,8 +34,8 @@ public class DisplayManager {
             + " OOPS!!! The task to mark as done must be an existing task";
     private static final String ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! Use numbers to specify which task to be marked as done";
-    private static final String ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE =
-            "Unidentified task type! Load file fail.";
+    private static final String ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE =  SAD_FACE_EMOJI
+            + "OOPS!!! Unidentified task type! Load file fail.";
 
 
     // File Error message

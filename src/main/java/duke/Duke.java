@@ -24,6 +24,8 @@ public class Duke {
     private static final boolean EXIT_COMMAND_IS_PASSED = true;
 
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final String DEADLINE_TASK_DELIMITER = "/by";
+    private static final String EVENT_TASK_DELIMITER = "/at";
 
     public static void main(String[] args) {
         // Prints duke.Duke's hello message and logo
@@ -162,6 +164,7 @@ public class Duke {
         DisplayManager.printMarkAsDoneMessage(tasks[taskDoneIndex]);
     }
 
+
     // Adds ToDos typed task into the tasks array
     private static void addTodoTask(Task[] tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after to_do command
@@ -175,6 +178,7 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
     }
 
+
     // Adds duke.task.Deadline typed task into the tasks array
     private static void addDeadlineTask(Task[] tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after deadline command
@@ -183,7 +187,7 @@ public class Duke {
         }
 
         // Splits user input into task details and deadline
-        String[] deadlineTaskParts = taskDescription.split("/by");
+        String[] deadlineTaskParts = taskDescription.split(DEADLINE_TASK_DELIMITER);
         String deadlineTaskDescription;
         String deadline;
         // Catches exceptions where user does not specify deadline in the correct format
@@ -207,6 +211,7 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks[Task.getTaskCount() - 1]);
     }
 
+
     // Adds duke.task.Event typed task into the tasks array
     private static void addEventTask(Task[] tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after event command
@@ -215,7 +220,7 @@ public class Duke {
         }
 
         // Splits user input into task details and event timing
-        String[] eventTaskParts = taskDescription.split("/at");
+        String[] eventTaskParts = taskDescription.split(EVENT_TASK_DELIMITER);
         String eventTaskDescription;
         String eventTime;
         // Catches exceptions where user does not specify event in the correct format

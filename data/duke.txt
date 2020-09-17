@@ -1,13 +1,5 @@
-[T][✓] please work
-[T][✓] hihi not done
-[T][✓] not done
-[D][✓] muamuatahz  (by: now)
-[D][✘] is this ok?  (by: today)
-[D][✘] i think it is fine right  (by: ok)
-[D][✘] hi  (by: tmr)
-[E][✓] todo  (at: tmr)
-[E][✘] hao de  (at: now)
-[T][✓] add now?
-[T][✘] alrighty then
-[D][✓] ok  (by: now)
-[E][✓] added  (at: 2 secs ago)
+[T][✓] read book
+[D][✓] return book  (by: June 6th)
+[E][✘] project meeting  (at: Aug 6th 2-4pm)
+[T][✓] join sports club
+[T][✘] borrow book

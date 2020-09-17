@@ -20,6 +20,8 @@ public class DataManager {
     // Different parts of a task when it is converted to a String
     private static final int TASK_TYPE_INDICATOR = 1;
     private static final int START_OF_TASK_DESCRIPTION = 7;
+    private static final String DEADLINE_TASK_DELIMITER = " \\(by:";
+    private static final String EVENT_TASK_DELIMITER = " \\(at:";
 
     public static void saveTasksData(Task[] tasks) throws IOException {
         ArrayList<String> tasksStringList = new ArrayList<>();
@@ -29,20 +31,14 @@ public class DataManager {
             tasksStringList.add(tasks[i].toString());
         }
 
-        // Write tasks to data file
+        // Write tasks to data file - a text file
         Files.write(DATA_PATH, tasksStringList);
     }
 
     public static void loadTasksData(Task[] tasks) throws IOException {
-        // Since loadData is executed first, we need to check if user already have the folder 'data'
-        // If not, we create one for him / her
-        if (!Files.exists(DATA_DIRECTORY)) {
-            Files.createDirectory(DATA_DIRECTORY);
-        }
-        // Then check if user already have the 'duke.txt' data file, if not, we create one for him / her
-        if (!Files.exists(DATA_PATH)) {
-            Files.createFile(DATA_PATH);
-        }
+
+        // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
+        createSaveLocation();
 
         // Requires casting as it only returns a list - superclass of arrayList
         ArrayList<String> loadedTasksStringList = (ArrayList<String>) Files.readAllLines(DATA_PATH);
@@ -51,7 +47,7 @@ public class DataManager {
 
             TaskType taskType;
 
-            // Get task type while catching unknown task type error
+            // Get task type while catching unknown-task-type error
             try {
                 taskType = getTaskType(task.charAt(TASK_TYPE_INDICATOR));
             } catch (DukeException e) {
@@ -72,6 +68,16 @@ public class DataManager {
                 processEventTask(task, tasks);
                 break;
             }
+        }
+    }
+
+    // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
+    private static void createSaveLocation() throws IOException {
+        if (!Files.exists(DATA_DIRECTORY)) {
+            Files.createDirectory(DATA_DIRECTORY);
+        }
+        if (!Files.exists(DATA_PATH)) {
+            Files.createFile(DATA_PATH);
         }
     }
 
@@ -106,7 +112,7 @@ public class DataManager {
         // Load saved to_do task into current tasks
         tasks[Task.getTaskCount()] = new Todo(taskDescription);
 
-        // Recover its mark as done status
+        // Recover its isDone status
         markTaskDoneIfDone(task, tasks);
     }
 
@@ -115,16 +121,15 @@ public class DataManager {
     private static void processDeadlineTask(String task, Task[] tasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
-        String[] deadlineTaskParts = taskDescription.split(" \\(by:");
+        String[] deadlineTaskParts = taskDescription.split(DEADLINE_TASK_DELIMITER);
         String deadlineTaskDescription = deadlineTaskParts[0];
-
         // Took the substring of the deadline portion because we want to ignore the closing bracket at the end
         String deadline = deadlineTaskParts[1].substring(0, deadlineTaskParts[1].length() - 1);
 
-        // Load saved to_do task into current tasks
+        // Load saved deadline task into current tasks
         tasks[Task.getTaskCount()] = new Deadline(deadlineTaskDescription, deadline);
 
-        // Recover its mark as done status
+        // Recover its isDone status
         markTaskDoneIfDone(task, tasks);
     }
 
@@ -133,18 +138,15 @@ public class DataManager {
     private static void processEventTask(String task, Task[] tasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
-        String[] eventTaskParts = taskDescription.split(" \\(at:");
+        String[] eventTaskParts = taskDescription.split(EVENT_TASK_DELIMITER);
         String eventTaskDescription = eventTaskParts[0];
-
         // Took the substring of the deadline portion because we want to ignore the closing bracket at the end
         String eventTime = eventTaskParts[1].substring(0, eventTaskParts[1].length() - 1);
 
-        // Load saved to_do task into current tasks
+        // Load saved event task into current tasks
         tasks[Task.getTaskCount()] = new Event(eventTaskDescription, eventTime);
 
-        // Recover its mark as done status
+        // Recover its isDone status
         markTaskDoneIfDone(task, tasks);
     }
-
-
 }
