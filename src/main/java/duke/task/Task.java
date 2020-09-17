@@ -1,8 +1,8 @@
 package duke.task;
 
 public class Task {
-    private static final String TICK_SYMBOL = "[\u2713]";
-    private static final String CROSS_SYMBOL = "[\u2718]";
+    public static final String TICK_SYMBOL = "[\u2713]";
+    public static final String CROSS_SYMBOL = "[\u2718]";
     protected String description;
     protected boolean isDone;
 

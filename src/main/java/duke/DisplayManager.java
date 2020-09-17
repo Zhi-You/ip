@@ -16,7 +16,7 @@ public class DisplayManager {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
-    // Error messages
+    // Duke Error messages
     private static final String SAD_FACE_EMOJI = "\u2639";
     private static final String ERROR_COMMAND_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! I'm sorry, but I don't know what that means :-(";
@@ -42,9 +42,16 @@ public class DisplayManager {
             + " OOPS!!! Use numbers to specify which task to be deleted.";
     private static final String ERROR_DELETETASK_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The task to be deleted must be an existing task.";
-    private static final String UNEXPECTED_ERROR = "An unidentified error has occurred! Please take note!";
+    private static final String UNEXPECTED_ERROR = SAD_FACE_EMOJI
+            + " OOPS!!! An unidentified error has occurred! Please take note!";
+    private static final String ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE =  SAD_FACE_EMOJI
+            + " OOPS!!! Unidentified task type! Load file fail.";
 
+    // File Error message
+    private static final String FILE_ERROR_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! Something is wrong with the save file. Please check again";
 
+    private static final boolean IS_DELETING = true;
 
     /* duke.DisplayManager methods */
 
@@ -64,19 +71,19 @@ public class DisplayManager {
     public static void printTaskAddedMessage(Task task) {
         printMessageToUser("Got it. I've added this task:" + System.lineSeparator()
                 + "  " + task + System.lineSeparator()
-                + printTaskCount(false));
+                + printTaskCount(!IS_DELETING));
     }
 
     // Prints message to indicate user has deleted a task
     public static void printTaskDeletedMessage (Task task) {
         printMessageToUser("Noted. I've removed this task: " + System.lineSeparator()
                 + "  " + task + System.lineSeparator()
-                + printTaskCount(true));
+                + printTaskCount(IS_DELETING));
     }
 
     // Prints the current count of the tasks in the task ArrayList
     public static String printTaskCount(boolean isDeleting) {
-        return("Now you have " + (isDeleting == true? Task.getTaskCount() - 1 : Task.getTaskCount())
+        return("Now you have " + (isDeleting ? Task.getTaskCount() - 1 : Task.getTaskCount())
                 + (Task.getTaskCount() == 1 ? " task in the list." : " tasks in the list."));
     }
 
@@ -112,7 +119,7 @@ public class DisplayManager {
     }
 
     // Prints different error messages for different exceptions encountered
-    public static void printErrorMessage(String errorType) {
+    public static void printDukeErrorMessage(String errorType) {
         switch (errorType) {
         case ErrorTypeManager.ERROR_UNKNOWN_COMMAND:
             printMessageToUser(ERROR_COMMAND_MESSAGE);
@@ -150,9 +157,17 @@ public class DisplayManager {
         case ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX:
             printMessageToUser(ERROR_DELETETASK_WRONG_INDEX_MESSAGE);
             break;
+        case ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR:
+            printMessageToUser(ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE);
+            break;
         default:
             printMessageToUser(UNEXPECTED_ERROR);
             break;
         }
+    }
+
+    // Whenever there is an issue saving or loading from file
+    public static void printFileErrorMessage() {
+        printMessageToUser(FILE_ERROR_MESSAGE);
     }
 }

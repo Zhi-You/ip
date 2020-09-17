@@ -6,6 +6,7 @@ import duke.task.Task;
 import duke.task.Todo;
 
 import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -22,6 +23,8 @@ public class Duke {
     private static final boolean EXIT_COMMAND_IS_PASSED = true;
 
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final String DEADLINE_TASK_DELIMITER = "/by";
+    private static final String EVENT_TASK_DELIMITER = "/at";
 
     public static void main(String[] args) {
         // Prints Duke's hello message and logo
@@ -37,10 +40,18 @@ public class Duke {
         DisplayManager.printExitMessage();
     }
 
+    // Continually handles the inputs user gives to Duke
     // Handles the exception thrown by processUserInputs and repeat execution until user exits Duke
     private static void handleUserInputs() {
         // ArrayList of Task objects to dynamically store tasks specified by user
         ArrayList<Task> tasks = new ArrayList<>();
+
+        // Load tasks data when Duke starts up
+        try {
+            DataManager.loadTasksData(tasks);
+        } catch (IOException e) {
+            DisplayManager.printFileErrorMessage();
+        }
 
         boolean exitCommandPassed = false;
 
@@ -49,13 +60,16 @@ public class Duke {
             try {
                 exitCommandPassed = processUserInputs(tasks);
             } catch (DukeException e) {
-                DisplayManager.printErrorMessage(e.getMessage());
+                DisplayManager.printDukeErrorMessage(e.getMessage());
+            } catch (IOException e) {
+                DisplayManager.printFileErrorMessage();
             }
         }
     }
 
+
     // To allow Duke to get and process the inputs specified by the user
-    private static boolean processUserInputs(ArrayList<Task> tasks) throws DukeException {
+    private static boolean processUserInputs(ArrayList<Task> tasks) throws DukeException, IOException {
         String userInput;
         String command;
         String taskDescription;
@@ -94,6 +108,9 @@ public class Duke {
             default:
                 throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_COMMAND);
             }
+
+            // Saves tasks whenever the task list changes
+            DataManager.saveTasksData(tasks);
         }
     }
 
@@ -183,6 +200,7 @@ public class Duke {
         Task.decrementTaskCount();
     }
 
+
     // Adds ToDos typed task into the tasks arraylist
     private static void addTodoTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after to_do command
@@ -196,6 +214,7 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 
+
     // Adds Deadline typed task into the tasks arraylist
     private static void addDeadlineTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after deadline command
@@ -204,7 +223,7 @@ public class Duke {
         }
 
         // Splits user input into task details and deadline
-        String[] deadlineTaskParts = taskDescription.split("/by");
+        String[] deadlineTaskParts = taskDescription.split(DEADLINE_TASK_DELIMITER);
         String deadlineTaskDescription;
         String deadline;
         // Catches exceptions where user does not specify deadline in the correct format
@@ -228,6 +247,7 @@ public class Duke {
         DisplayManager.printTaskAddedMessage(tasks.get(Task.getTaskCount() - 1));
     }
 
+
     // Adds Event typed task into the tasks arraylist
     private static void addEventTask(ArrayList<Task> tasks, String taskDescription) throws DukeException {
         // Catches the exception whereby user did not input any description after event command
@@ -236,7 +256,7 @@ public class Duke {
         }
 
         // Splits user input into task details and event timing
-        String[] eventTaskParts = taskDescription.split("/at");
+        String[] eventTaskParts = taskDescription.split(EVENT_TASK_DELIMITER);
         String eventTaskDescription;
         String eventTime;
         // Catches exceptions where user does not specify event in the correct format
