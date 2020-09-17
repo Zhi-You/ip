@@ -18,13 +18,14 @@ public class Duke {
     private static final String COMMAND_TODO_TASK = "todo";
     private static final String COMMAND_DEADLINE_TASK = "deadline";
     private static final String COMMAND_EVENT_TASK = "event";
+    private static final String DEADLINE_TASK_DELIMITER = "/by";
+    private static final String EVENT_TASK_DELIMITER = "/at";
 
     // Constant for user's exit status
     private static final boolean EXIT_COMMAND_IS_PASSED = true;
 
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final String DEADLINE_TASK_DELIMITER = "/by";
-    private static final String EVENT_TASK_DELIMITER = "/at";
+
 
     public static void main(String[] args) {
         // Prints Duke's hello message and logo
