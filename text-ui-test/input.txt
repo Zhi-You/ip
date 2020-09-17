@@ -28,4 +28,13 @@ done -1
 done 50
 done a
 list
+delete
+delete -1
+delete 50
+delete a
+delete 5
+delete 2
+list
+delete 2
+list
 bye
