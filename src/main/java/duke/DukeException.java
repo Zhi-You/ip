@@ -5,7 +5,7 @@ package duke;
 // Note: initially wanted to use an enum but that was not an option anymore as we should pass
 // in a string instead to identify the type of error
 public class DukeException extends Exception{
-    DukeException(String errorType) {
+    public DukeException(String errorType) {
         super(errorType);
     }
 }

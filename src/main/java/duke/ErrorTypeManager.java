@@ -18,4 +18,6 @@ public class ErrorTypeManager {
     public static final String ERROR_DELETETASK_NOT_NUMBER = "error_deleteTask_not_number";
     public static final String ERROR_DELETETASK_WRONG_INDEX = "error_deleteTask_wrong_index";
     public static final String ERROR_UNKNOWN_TASK_INDICATOR = "error_unknownTaskIndicator";
+    public static final String ERROR_NO_DATA_TO_LOAD = "error_no_data_to_load";
+    public static final String ERROR_WITH_FILE = "error_with_file";
 }
