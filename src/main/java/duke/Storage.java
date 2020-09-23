@@ -11,78 +11,102 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class DataManager {
+import static duke.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
+import static duke.ErrorTypeManager.ERROR_WITH_FILE;
+
+public class Storage {
     // Specifying file paths in an OS-independent way
-    private static final String CURRENT_DIRECTORY = System.getProperty("user.dir");
-    private static final Path DATA_DIRECTORY = Paths.get(CURRENT_DIRECTORY, "data");
-    private static final Path DATA_PATH = Paths.get(CURRENT_DIRECTORY, "data", "duke.txt");
+    private final String CURRENT_DIRECTORY = System.getProperty("user.dir");
 
     // Different parts of a task when it is converted to a String
-    private static final int TASK_TYPE_INDICATOR = 1;
-    private static final int START_OF_TASK_DESCRIPTION = 7;
-    private static final String DEADLINE_TASK_DELIMITER = " \\(by:";
-    private static final String EVENT_TASK_DELIMITER = " \\(at:";
+    private final int TASK_TYPE_INDICATOR = 1;
+    private final int START_OF_TASK_DESCRIPTION = 7;
+    private final String DEADLINE_TASK_DELIMITER = " \\(by:";
+    private final String EVENT_TASK_DELIMITER = " \\(at:";
 
-    public static void saveTasksData(ArrayList<Task> tasks) throws IOException {
+    private final Path dataDirectoryPath;
+    private final Path dataFilePath;
+
+    Storage(String filepath) {
+        String directoryName = filepath.split("/")[0];
+        String fileName = filepath.split("/")[1];
+
+        dataDirectoryPath = Paths.get(CURRENT_DIRECTORY, directoryName);
+        dataFilePath = Paths.get(CURRENT_DIRECTORY, directoryName, fileName);
+    }
+
+    public void saveTasksData(ArrayList<Task> tasks) throws DukeException {
         ArrayList<String> tasksStringList = new ArrayList<>();
 
         // Get a string representation of the tasks and store it into an ArrayList
-        for (int i = 0; i < Task.getTaskCount(); i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             tasksStringList.add(tasks.get(i).toString());
         }
 
         // Write tasks to data file - a text file
-        Files.write(DATA_PATH, tasksStringList);
+        try {
+            Files.write(dataFilePath, tasksStringList);
+        } catch (IOException e) {
+            throw new DukeException(ERROR_WITH_FILE);
+        }
     }
 
-    public static void loadTasksData(ArrayList<Task> tasks) throws IOException {
+    public ArrayList<Task> loadTasksData() throws DukeException {
         // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
         createSaveLocation();
 
+        ArrayList<Task> loadedTasks = new ArrayList<>();
+        ArrayList<String> loadedTasksStringList;
+
         // Requires casting as it only returns a list - superclass of arrayList
         // Read from the saved file - if any
-        ArrayList<String> loadedTasksStringList = (ArrayList<String>) Files.readAllLines(DATA_PATH);
+        try {
+            loadedTasksStringList = (ArrayList<String>) Files.readAllLines(dataFilePath);
+        } catch (IOException e) {
+            throw new DukeException(ERROR_WITH_FILE);
+        }
 
         for (String task : loadedTasksStringList) {
 
             TaskType taskType;
 
             // Get task type while catching unknown-task-type error
-            try {
-                taskType = getTaskType(task.charAt(TASK_TYPE_INDICATOR));
-            } catch (DukeException e) {
-                // Print error message to user and terminate loading of data file if task type is not found
-                DisplayManager.printDukeErrorMessage(e.getMessage());
-                return;
-            }
+            taskType = getTaskType(task.charAt(TASK_TYPE_INDICATOR));
+
 
             // Using enums to check the type of task we are dealing with.
             // Unlikely to go to the default statement since enums are fixed values
             switch(taskType) {
             case TODO:
-                processTodoTask(task, tasks);
+                loadTodoTask(task, loadedTasks);
                 break;
             case DEADLINE:
-                processDeadlineTask(task, tasks);
+                loadDeadlineTask(task, loadedTasks);
                 break;
             case EVENT:
-                processEventTask(task, tasks);
+                loadEventTask(task, loadedTasks);
                 break;
             default:
-                return;
+                throw new DukeException(ERROR_UNKNOWN_TASK_INDICATOR);
             }
         }
+
+        return loadedTasks;
     }
 
     // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
-    private static void createSaveLocation() throws IOException {
+    private void createSaveLocation() throws DukeException {
         // Create 'data' folder if it does not already exists
-        if (!Files.exists(DATA_DIRECTORY)) {
-            Files.createDirectory(DATA_DIRECTORY);
-        }
-        // Create 'duke.txt' file if it does not already exists
-        if (!Files.exists(DATA_PATH)) {
-            Files.createFile(DATA_PATH);
+        try {
+            if (!Files.exists(dataDirectoryPath)) {
+                Files.createDirectory(dataDirectoryPath);
+            }
+            // Create 'duke.txt' file if it does not already exists
+            if (!Files.exists(dataFilePath)) {
+                Files.createFile(dataFilePath);
+            }
+        } catch (IOException e) {
+            throw new DukeException(ERROR_WITH_FILE);
         }
     }
 
@@ -97,32 +121,32 @@ public class DataManager {
         case 'E':
             return TaskType.EVENT;
         default:
-            throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR);
+            throw new DukeException(ERROR_UNKNOWN_TASK_INDICATOR);
         }
     }
 
     // Identify if task was marked as done before and mark it as done in current session if yes
-    private static void markTaskDoneIfDone (String task, ArrayList<Task> tasks) {
+    private void markTaskDoneIfDone (String task, ArrayList<Task> loadedTasks) {
         if (task.contains(Task.TICK_SYMBOL)) {
-            tasks.get(Task.getTaskCount() - 1).markAsDone();
+            loadedTasks.get(loadedTasks.size() - 1).markAsDone();
         }
     }
 
     // Exceptions are already handled in Duke.java and hence we will assume these are appropriate tasks
     // No need to notify user that the task has been added too
-    private static void processTodoTask(String task, ArrayList<Task> tasks) {
+    private void loadTodoTask(String task, ArrayList<Task> loadedTasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
         // Load saved to_do task into current tasks
-        tasks.add(new Todo(taskDescription));
+        loadedTasks.add(new Todo(taskDescription));
 
         // Recover its isDone status
-        markTaskDoneIfDone(task, tasks);
+        markTaskDoneIfDone(task, loadedTasks);
     }
 
     // Deadline tasks should be in the right format since exceptions were handled in Duke.java
     // No need to notify user that the task has been added too
-    private static void processDeadlineTask(String task, ArrayList<Task> tasks) {
+    private void loadDeadlineTask(String task, ArrayList<Task> loadedTasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
         String[] deadlineTaskParts = taskDescription.split(DEADLINE_TASK_DELIMITER);
@@ -131,15 +155,15 @@ public class DataManager {
         String deadline = deadlineTaskParts[1].substring(0, deadlineTaskParts[1].length() - 1);
 
         // Load saved deadline task into current tasks
-        tasks.add(new Deadline(deadlineTaskDescription, deadline));
+        loadedTasks.add(new Deadline(deadlineTaskDescription, deadline));
 
         // Recover its isDone status
-        markTaskDoneIfDone(task, tasks);
+        markTaskDoneIfDone(task, loadedTasks);
     }
 
     // Event tasks should be in the right format since exceptions were handled in Duke.java
     // No need to notify user that the task has been added too
-    private static void processEventTask(String task, ArrayList<Task> tasks) {
+    private void loadEventTask(String task, ArrayList<Task> loadedTasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
         String[] eventTaskParts = taskDescription.split(EVENT_TASK_DELIMITER);
@@ -148,9 +172,9 @@ public class DataManager {
         String eventTime = eventTaskParts[1].substring(0, eventTaskParts[1].length() - 1);
 
         // Load saved event task into current tasks
-        tasks.add(new Event(eventTaskDescription, eventTime));
+        loadedTasks.add(new Event(eventTaskDescription, eventTime));
 
         // Recover its isDone status
-        markTaskDoneIfDone(task, tasks);
+        markTaskDoneIfDone(task, loadedTasks);
     }
 }
