@@ -2,7 +2,7 @@ package duke.task;
 
 public class Deadline extends Task {
 
-    private final String DEADLINE_TASK_INDICATOR = "[D]";
+    private final String TASK_INDICATOR = "[D]";
 
     protected String deadline;
 
@@ -13,6 +13,6 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return DEADLINE_TASK_INDICATOR + super.toString() + " (by:" + deadline + ")";
+        return TASK_INDICATOR + super.toString() + " (by:" + deadline + ")";
     }
 }

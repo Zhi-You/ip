@@ -2,9 +2,9 @@ package duke.task;
 
 public class Event extends Task {
 
-    private final String EVENT_TASK_INDICATOR = "[E]";
+    private final String TASK_INDICATOR = "[E]";
 
-    protected String eventTime;
+    private String eventTime;
 
     public Event(String description, String eventTime) {
         super(description);
@@ -13,6 +13,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return EVENT_TASK_INDICATOR + super.toString() + " (at:" + eventTime + ")";
+        return TASK_INDICATOR + super.toString() + " (at:" + eventTime + ")";
     }
 }
