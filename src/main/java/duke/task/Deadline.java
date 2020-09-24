@@ -6,7 +6,6 @@ public class Deadline extends Task {
 
     private final String TASK_INDICATOR = "[D]";
 
-    // might have null pointer exception
     private String deadline;
 
     private LocalDate date;

@@ -145,7 +145,6 @@ public class TaskList {
             throw new DukeException(ERROR_DEADLINE_EMPTY_DESCRIPTION);
         }
 
-
         Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
 
         LocalDate deadlineDate = DateParser.getTaskDate(newDeadlineTask.getDeadline());
@@ -186,6 +185,15 @@ public class TaskList {
         }
 
         Event newEventTask = new Event(eventTaskDescription, eventTime);
+
+        LocalDate eventDate = DateParser.getTaskDate(newEventTask.getEventTime());
+        newEventTask.setDate(eventDate);
+
+        if (eventDate != null) {
+            String newEventTime = DateParser.newDateDescription(newEventTask.getEventTime(), eventDate);
+            newEventTask.setEventTime(newEventTime);
+        }
+
         tasks.add(newEventTask);
 
         // Notifies user that task has been added
