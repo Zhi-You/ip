@@ -8,7 +8,7 @@ Hello from
 
 ______________________________________________________
 (Available commands are: 'list', 'todo', 'event',
-'deadline', 'done', 'delete' and 'bye')
+'deadline', 'done', 'delete', 'find' and 'bye')
 (Note: Dates should be given in 'yyyy-mm-dd' format)
 ______________________________________________________
 Hello! I'm Duke
@@ -187,6 +187,48 @@ ______________________________________________________
 Noted. I've removed this task: 
   [T][✓] read book
 Now you have 5 tasks in the list.
+______________________________________________________
+______________________________________________________
+Here are the tasks in your list: 
+1.[E][✘] project meeting  (at: Aug 6th 2-4pm)
+2.[T][✓] join sports club
+3.[D][✓] return book  (by: Sunday)
+4.[E][✓] project meeting  (at: Mon 2-4pm)
+5.[D][✘] do homework  (by: no idea :p)
+______________________________________________________
+______________________________________________________
+There are no matching tasks in your list.
+______________________________________________________
+______________________________________________________
+There are no matching tasks in your list.
+______________________________________________________
+______________________________________________________
+Here are the matching tasks in your list: 
+1.[D][✘] do homework  (by: no idea :p)
+______________________________________________________
+______________________________________________________
+Here are the matching tasks in your list: 
+1.[D][✘] do homework  (by: no idea :p)
+______________________________________________________
+______________________________________________________
+Here are the matching tasks in your list: 
+1.[D][✓] return book  (by: Sunday)
+______________________________________________________
+______________________________________________________
+Here are the matching tasks in your list: 
+1.[E][✘] project meeting  (at: Aug 6th 2-4pm)
+2.[E][✓] project meeting  (at: Mon 2-4pm)
+______________________________________________________
+______________________________________________________
+Here are the matching tasks in your list: 
+1.[E][✘] project meeting  (at: Aug 6th 2-4pm)
+2.[T][✓] join sports club
+3.[D][✓] return book  (by: Sunday)
+4.[E][✓] project meeting  (at: Mon 2-4pm)
+5.[D][✘] do homework  (by: no idea :p)
+______________________________________________________
+______________________________________________________
+☹ OOPS!!! The description of the find command cannot be empty.
 ______________________________________________________
 ______________________________________________________
 Here are the tasks in your list: 

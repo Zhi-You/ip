@@ -37,4 +37,13 @@ delete 2
 list
 delete 1
 list
+find hi
+find why
+find homework
+find work
+find book
+find project
+find o
+find
+list
 bye
