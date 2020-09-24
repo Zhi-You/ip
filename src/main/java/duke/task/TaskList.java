@@ -1,5 +1,6 @@
 package duke.task;
 
+import duke.parser.DateParser;
 import duke.ui.Ui;
 import duke.exception.DukeException;
 
@@ -142,6 +143,8 @@ public class TaskList {
         if (deadlineTaskDescription.isBlank()) {
             throw new DukeException(ERROR_DEADLINE_EMPTY_DESCRIPTION);
         }
+
+        deadline = DateParser.parse(deadline);
 
         Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
         tasks.add(newDeadlineTask);
