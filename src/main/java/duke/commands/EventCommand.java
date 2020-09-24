@@ -1,10 +1,10 @@
 package duke.commands;
 
-import duke.DukeException;
-import duke.Storage;
+import duke.exception.DukeException;
+import duke.data.Storage;
 import duke.task.TaskList;
 
-import static duke.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
 
 public class EventCommand extends Command {
     public static final String COMMAND_WORD = "event";

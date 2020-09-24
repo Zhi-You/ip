@@ -1,8 +1,10 @@
-package duke;
+package duke.data;
 
+import duke.exception.DukeException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
+import duke.task.TaskType;
 import duke.task.Todo;
 
 import java.io.IOException;
@@ -11,8 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import static duke.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
-import static duke.ErrorTypeManager.ERROR_WITH_FILE;
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
+import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
 public class Storage {
     // Specifying file paths in an OS-independent way
@@ -27,7 +29,7 @@ public class Storage {
     private final Path dataDirectoryPath;
     private final Path dataFilePath;
 
-    Storage(String filepath) {
+    public Storage(String filepath) {
         String directoryName = filepath.split("/")[0];
         String fileName = filepath.split("/")[1];
 

@@ -1,5 +1,7 @@
-package duke;
+package duke.parser;
 
+import duke.exception.DukeException;
+import duke.exception.ErrorTypeManager;
 import duke.commands.Command;
 import duke.commands.DeadlineCommand;
 import duke.commands.DeleteCommand;

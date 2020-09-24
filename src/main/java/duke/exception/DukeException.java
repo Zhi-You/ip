@@ -1,4 +1,4 @@
-package duke;
+package duke.exception;
 
 // Using errorType string to differentiate what type of error we are facing with
 // To allow duke.DisplayManager to know what message to print through a switch statement

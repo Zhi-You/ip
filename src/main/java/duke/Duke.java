@@ -1,9 +1,13 @@
 package duke;
 
 import duke.commands.Command;
+import duke.data.Storage;
+import duke.exception.DukeException;
+import duke.parser.Parser;
 import duke.task.TaskList;
+import duke.ui.Ui;
 
-import static duke.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
+import static duke.exception.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
 
 public class Duke {
 

@@ -1,40 +1,40 @@
-package duke;
+package duke.ui;
 
 import duke.task.Task;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static duke.ErrorMessages.ERROR_COMMAND_MESSAGE;
-import static duke.ErrorMessages.ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE;
-import static duke.ErrorMessages.ERROR_DEADLINE_WRONG_FORMAT_MESSAGE;
-import static duke.ErrorMessages.ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE;
-import static duke.ErrorMessages.ERROR_DELETETASK_NOT_NUMBER_MESSAGE;
-import static duke.ErrorMessages.ERROR_DELETETASK_WRONG_INDEX_MESSAGE;
-import static duke.ErrorMessages.ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE;
-import static duke.ErrorMessages.ERROR_EVENT_WRONG_FORMAT_MESSAGE;
-import static duke.ErrorMessages.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE;
-import static duke.ErrorMessages.ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE;
-import static duke.ErrorMessages.ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE;
-import static duke.ErrorMessages.ERROR_TODO_EMPTY_DESCRIPTION_MESSAGE;
-import static duke.ErrorMessages.ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE;
-import static duke.ErrorMessages.FILE_ERROR_MESSAGE;
-import static duke.ErrorMessages.UNEXPECTED_ERROR;
+import static duke.exception.ErrorMessages.ERROR_COMMAND_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DEADLINE_WRONG_FORMAT_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DELETETASK_NOT_NUMBER_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DELETETASK_WRONG_INDEX_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_EVENT_WRONG_FORMAT_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_TODO_EMPTY_DESCRIPTION_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE;
+import static duke.exception.ErrorMessages.FILE_ERROR_MESSAGE;
+import static duke.exception.ErrorMessages.UNEXPECTED_ERROR;
 
-import static duke.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
-import static duke.ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
-import static duke.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
-import static duke.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
-import static duke.ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
-import static duke.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
-import static duke.ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
-import static duke.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
-import static duke.ErrorTypeManager.ERROR_WITH_FILE;
+import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
+import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
+import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
+import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
 public class Ui {
     private final String DIVIDER = "________________________________________________";

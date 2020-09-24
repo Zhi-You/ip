@@ -1,19 +1,19 @@
 package duke.task;
 
-import duke.Ui;
-import duke.DukeException;
+import duke.ui.Ui;
+import duke.exception.DukeException;
 
 import java.util.ArrayList;
 
-import static duke.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
-import static duke.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
-import static duke.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
-import static duke.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
-import static duke.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
-import static duke.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
-import static duke.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
-import static duke.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
+import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
+import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
+import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
 
 /**
  * Represents the entire list of tasks entered by the user during runtime and from
