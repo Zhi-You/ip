@@ -9,8 +9,6 @@ import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIP
 public class DoneCommand extends Command {
     public static final String COMMAND_WORD = "done";
 
-    private String taskDescription;
-
     public DoneCommand(String taskDescription) {
         this.taskDescription = taskDescription;
     }

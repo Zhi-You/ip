@@ -9,8 +9,6 @@ import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
 public class DeadlineCommand extends Command {
     public static final String COMMAND_WORD = "deadline";
 
-    private String taskDescription;
-
     public DeadlineCommand(String taskDescription) {
         this.taskDescription = taskDescription;
     }

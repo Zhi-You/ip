@@ -6,13 +6,14 @@ import duke.task.TaskList;
 
 
 public abstract class Command {
-    public void execute(TaskList taskList, Storage storage) throws DukeException {
-        storage.saveTasksData(taskList.getTasks());
-    }
-
     protected boolean isExit = false;
+    protected String taskDescription;
 
     public boolean isExit() {
         return isExit;
+    }
+
+    public void execute(TaskList taskList, Storage storage) throws DukeException {
+        storage.saveTasksData(taskList.getTasks());
     }
 }

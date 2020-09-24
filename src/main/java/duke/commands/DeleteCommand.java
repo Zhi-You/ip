@@ -10,8 +10,6 @@ import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION
 public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
 
-    private String taskDescription;
-
     public DeleteCommand(String taskDescription) {
         this.taskDescription = taskDescription;
     }

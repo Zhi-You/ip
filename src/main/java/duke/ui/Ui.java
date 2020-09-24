@@ -59,7 +59,6 @@ public class Ui {
 
     private final Scanner SCANNER = new Scanner(System.in);
 
-    // private final boolean IS_DELETING = true;
 
     public String getUserInput() {
         return SCANNER.nextLine();
@@ -177,6 +176,7 @@ public class Ui {
             break;
         case ERROR_WITH_FILE:
             printMessageToUser(FILE_ERROR_MESSAGE);
+            break;
         default:
             printMessageToUser(UNEXPECTED_ERROR);
             break;

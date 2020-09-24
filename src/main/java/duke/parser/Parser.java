@@ -1,7 +1,7 @@
 package duke.parser;
 
 import duke.exception.DukeException;
-import duke.exception.ErrorTypeManager;
+
 import duke.commands.Command;
 import duke.commands.DeadlineCommand;
 import duke.commands.DeleteCommand;
@@ -10,6 +10,8 @@ import duke.commands.EventCommand;
 import duke.commands.ExitCommand;
 import duke.commands.ListCommand;
 import duke.commands.TodoCommand;
+
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
 
 public class Parser {
 
@@ -34,9 +36,8 @@ public class Parser {
         case EventCommand.COMMAND_WORD:
             return new EventCommand(taskDescription);
         default:
-            throw new DukeException(ErrorTypeManager.ERROR_UNKNOWN_COMMAND);
+            throw new DukeException(ERROR_UNKNOWN_COMMAND);
         }
-
     }
 
     // Extracts command word from user inputs to decide what Duke will do

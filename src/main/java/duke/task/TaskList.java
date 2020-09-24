@@ -26,7 +26,7 @@ public class TaskList {
 
     private ArrayList<Task> tasks;
 
-    private Ui ui;
+    private final Ui ui;
 
     /** Constructs task list from stored data */
     public TaskList(ArrayList<Task> loadedTasks) throws DukeException {
@@ -114,7 +114,7 @@ public class TaskList {
 
     // Adds ToDos typed task into the tasks arraylist
     public void addTodoTask(String taskDescription) {
-        Task newTodoTask = new Todo(taskDescription);
+        Todo newTodoTask = new Todo(taskDescription);
         tasks.add(newTodoTask);
 
         // Notifies user that task has been added

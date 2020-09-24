@@ -9,8 +9,6 @@ import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
 public class EventCommand extends Command {
     public static final String COMMAND_WORD = "event";
 
-    private String taskDescription;
-
     public EventCommand(String taskDescription) {
         this.taskDescription = taskDescription;
     }

@@ -9,8 +9,6 @@ import static duke.exception.ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION;
 public class TodoCommand extends Command {
     public static final String COMMAND_WORD = "todo";
 
-    private String taskDescription;
-
     public TodoCommand(String taskDescription) {
         this.taskDescription = taskDescription;
     }

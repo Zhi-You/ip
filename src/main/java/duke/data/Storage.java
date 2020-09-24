@@ -55,7 +55,7 @@ public class Storage {
 
     public ArrayList<Task> loadTasksData() throws DukeException {
         // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
-        createSaveLocation();
+        createSaveLocationIfNotExist();
 
         ArrayList<Task> loadedTasks = new ArrayList<>();
         ArrayList<String> loadedTasksStringList;
@@ -72,7 +72,7 @@ public class Storage {
 
             TaskType taskType;
 
-            // Get task type while catching unknown-task-type error
+            // Throws task type while catching unknown-task-type error
             taskType = getTaskType(task.charAt(TASK_TYPE_INDICATOR));
 
 
@@ -97,7 +97,7 @@ public class Storage {
     }
 
     // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
-    private void createSaveLocation() throws DukeException {
+    private void createSaveLocationIfNotExist() throws DukeException {
         // Create 'data' folder if it does not already exists
         try {
             if (!Files.exists(dataDirectoryPath)) {
@@ -140,7 +140,8 @@ public class Storage {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
         // Load saved to_do task into current tasks
-        loadedTasks.add(new Todo(taskDescription));
+        Todo newTodoTask = new Todo(taskDescription);
+        loadedTasks.add(newTodoTask);
 
         // Recover its isDone status
         markTaskDoneIfDone(task, loadedTasks);
@@ -157,7 +158,8 @@ public class Storage {
         String deadline = deadlineTaskParts[1].substring(0, deadlineTaskParts[1].length() - 1);
 
         // Load saved deadline task into current tasks
-        loadedTasks.add(new Deadline(deadlineTaskDescription, deadline));
+        Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
+        loadedTasks.add(newDeadlineTask);
 
         // Recover its isDone status
         markTaskDoneIfDone(task, loadedTasks);
@@ -174,7 +176,8 @@ public class Storage {
         String eventTime = eventTaskParts[1].substring(0, eventTaskParts[1].length() - 1);
 
         // Load saved event task into current tasks
-        loadedTasks.add(new Event(eventTaskDescription, eventTime));
+        Event newEventTask = new Event(eventTaskDescription, eventTime);
+        loadedTasks.add(newEventTask);
 
         // Recover its isDone status
         markTaskDoneIfDone(task, loadedTasks);
