@@ -5,15 +5,18 @@ import duke.exception.DukeException;
 
 import java.util.ArrayList;
 
+import static java.util.stream.Collectors.toList;
+
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
+
 
 /**
  * Represents the entire list of tasks entered by the user during runtime and from
@@ -59,14 +62,14 @@ public class TaskList {
 
 
     // Given an index, able to mark the task at that index in the tasks arraylist to be done
-    public void markTaskAsDone(String taskDescription) throws DukeException {
+    public void markTaskAsDone(String taskIndexDescription) throws DukeException {
         int completedTaskIndex;
         Task taskToBeMarkedAsDone;
 
         // Gets index of the task user specified to be done
         // Catch exceptions whereby if index specified is not in numeric form
         try {
-            completedTaskIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
+            completedTaskIndex = Integer.parseInt(taskIndexDescription.split(" ")[0]) - 1;
         } catch (NumberFormatException e) {
             throw new DukeException(ERROR_MARKTASKASDONE_NOT_NUMBER);
         }
@@ -86,16 +89,16 @@ public class TaskList {
     }
 
     // Given an index, able to delete the task at that index in the tasks arraylist
-    public void deleteTask(String taskDescription) throws DukeException {
+    public void deleteTask(String taskIndexDescription) throws DukeException {
         int taskToDeleteIndex;
         Task taskToBeDeleted;
 
         // Gets index of the task user specified to be deleted
         // Catch exceptions whereby if index specified is not in numeric form
         try {
-            taskToDeleteIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
+            taskToDeleteIndex = Integer.parseInt(taskIndexDescription.split(" ")[0]) - 1;
         } catch (NumberFormatException e) {
-            throw new DukeException(ERROR_DELETETASK_NOT_NUMBER);
+            throw new DukeException(ERROR_DELETE_TASK_NOT_NUMBER);
         }
 
         // Delete specified task
@@ -105,7 +108,7 @@ public class TaskList {
             // Prints message using the task instance before it is deleted.
             taskToBeDeleted = tasks.get(taskToDeleteIndex);
         } catch (IndexOutOfBoundsException e) {
-            throw new DukeException(ERROR_DELETETASK_WRONG_INDEX);
+            throw new DukeException(ERROR_DELETE_TASK_WRONG_INDEX);
         }
 
         ui.printTaskDeletedMessage(taskToBeDeleted, getTaskCount());
@@ -178,5 +181,14 @@ public class TaskList {
 
         // Notifies user that task has been added
         ui.printTaskAddedMessage(newEventTask, getTaskCount());
+    }
+
+    // Given an index, able to mark the task at that index in the tasks arraylist to be done
+    public void findTasksAndPrint(String keyword) {
+        ArrayList<Task> foundTaskList = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> t.getDescription().contains(keyword))
+                .collect(toList());
+
+        ui.printFoundTasks(foundTaskList);
     }
 }

@@ -4,7 +4,7 @@ import duke.exception.DukeException;
 import duke.data.Storage;
 import duke.task.TaskList;
 
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_EMPTY_DESCRIPTION;
 
 
 public class DeleteCommand extends Command {
@@ -24,7 +24,7 @@ public class DeleteCommand extends Command {
 
     private void checkTaskDescriptionNotEmpty() throws DukeException {
         if (taskDescription.isBlank()) {
-            throw new DukeException(ERROR_DELETETASK_EMPTY_DESCRIPTION);
+            throw new DukeException(ERROR_DELETE_TASK_EMPTY_DESCRIPTION);
         }
     }
 }

@@ -8,11 +8,12 @@ import java.util.Scanner;
 import static duke.exception.ErrorMessages.ERROR_COMMAND_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_DEADLINE_WRONG_FORMAT_MESSAGE;
-import static duke.exception.ErrorMessages.ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE;
-import static duke.exception.ErrorMessages.ERROR_DELETETASK_NOT_NUMBER_MESSAGE;
-import static duke.exception.ErrorMessages.ERROR_DELETETASK_WRONG_INDEX_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DELETE_TASK_EMPTY_DESCRIPTION_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DELETE_TASK_NOT_NUMBER_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_DELETE_TASK_WRONG_INDEX_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_EVENT_WRONG_FORMAT_MESSAGE;
+import static duke.exception.ErrorMessages.ERROR_FIND_TASK_EMPTY_DESCRIPTION_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE;
 import static duke.exception.ErrorMessages.ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE;
@@ -23,11 +24,12 @@ import static duke.exception.ErrorMessages.UNEXPECTED_ERROR;
 
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_EMPTY_DESCRIPTION;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
+import static duke.exception.ErrorTypeManager.ERROR_FIND_TASK_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
@@ -38,10 +40,11 @@ import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
 public class Ui {
     private final String DIVIDER = "______________________________________________________";
+
     private final String WELCOME_MESSAGE = "Hello! I'm Duke" + System.lineSeparator()
             + "What can I do for you?";
     private final String NOTE_TO_USER = "(Available commands are: 'list', 'todo', 'event',"
-            + System.lineSeparator() + "'deadline', 'done', 'delete' and 'bye')"
+            + System.lineSeparator() + "'deadline', 'done', 'delete', 'find' and 'bye')"
             + System.lineSeparator() + "(Note: Dates should be given in 'yyyy-mm-dd' format)";
 
     private final String DUKE_LOGO = " ____        _        \n"
@@ -58,6 +61,8 @@ public class Ui {
             + "Your saved data was successfully loaded!)";
     private final String FAIL_DATA_LOAD_MESSAGE = "(Note: "
             + "Could not detect any saved data!)";
+
+    private final String NO_MATCHING_TASK_MESSAGE = "There are no matching tasks in your list.";
 
 
     private final Scanner SCANNER = new Scanner(System.in);
@@ -126,13 +131,25 @@ public class Ui {
                 + System.lineSeparator() + "  " + task);
     }
 
-
     // Prints list out for user when list command is received.
     public void printTasks(ArrayList<Task> tasks) {
         printDivider();
         System.out.println("Here are the tasks in your list: ");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
+        }
+        printDivider();
+    }
+
+    public void printFoundTasks(ArrayList<Task> tasks) {
+        printDivider();
+        if (tasks.size() == 0) {
+            System.out.println(NO_MATCHING_TASK_MESSAGE);
+        } else {
+            System.out.println("Here are the matching tasks in your list: ");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + "." + tasks.get(i));
+            }
         }
         printDivider();
     }
@@ -175,14 +192,17 @@ public class Ui {
         case ERROR_MARKTASKASDONE_NOT_NUMBER:
             printMessageToUser(ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE);
             break;
-        case ERROR_DELETETASK_EMPTY_DESCRIPTION:
-            printMessageToUser(ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE);
+        case ERROR_DELETE_TASK_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_DELETE_TASK_EMPTY_DESCRIPTION_MESSAGE);
             break;
-        case ERROR_DELETETASK_NOT_NUMBER:
-            printMessageToUser(ERROR_DELETETASK_NOT_NUMBER_MESSAGE);
+        case ERROR_DELETE_TASK_NOT_NUMBER:
+            printMessageToUser(ERROR_DELETE_TASK_NOT_NUMBER_MESSAGE);
             break;
-        case ERROR_DELETETASK_WRONG_INDEX:
-            printMessageToUser(ERROR_DELETETASK_WRONG_INDEX_MESSAGE);
+        case ERROR_DELETE_TASK_WRONG_INDEX:
+            printMessageToUser(ERROR_DELETE_TASK_WRONG_INDEX_MESSAGE);
+            break;
+        case ERROR_FIND_TASK_EMPTY_DESCRIPTION:
+            printMessageToUser(ERROR_FIND_TASK_EMPTY_DESCRIPTION_MESSAGE);
             break;
         case ERROR_UNKNOWN_TASK_INDICATOR:
             printMessageToUser(ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE);
@@ -195,5 +215,4 @@ public class Ui {
             break;
         }
     }
-
 }
