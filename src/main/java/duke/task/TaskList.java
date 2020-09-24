@@ -4,6 +4,7 @@ import duke.parser.DateParser;
 import duke.ui.Ui;
 import duke.exception.DukeException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
@@ -144,9 +145,17 @@ public class TaskList {
             throw new DukeException(ERROR_DEADLINE_EMPTY_DESCRIPTION);
         }
 
-        deadline = DateParser.parse(deadline);
 
         Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
+
+        LocalDate deadlineDate = DateParser.getTaskDate(newDeadlineTask.getDeadline());
+        newDeadlineTask.setDate(deadlineDate);
+
+        if (deadlineDate != null) {
+            String newDeadline = DateParser.newDateDescription(newDeadlineTask.getDeadline(), deadlineDate);
+            newDeadlineTask.setDeadline(newDeadline);
+        }
+
         tasks.add(newDeadlineTask);
 
         // Notifies user that task has been added
