@@ -37,9 +37,12 @@ import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
 import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
 public class Ui {
-    private final String DIVIDER = "________________________________________________";
+    private final String DIVIDER = "______________________________________________________";
     private final String WELCOME_MESSAGE = "Hello! I'm Duke" + System.lineSeparator()
             + "What can I do for you?";
+    private final String NOTE_TO_USER = "(Available commands are: 'list', 'todo', 'event',"
+            + System.lineSeparator() + "'deadline', 'done', 'delete' and 'bye')"
+            + System.lineSeparator() + "(Note: Dates should be given in 'yyyy-mm-dd' format)";
 
     private final String DUKE_LOGO = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
@@ -76,6 +79,27 @@ public class Ui {
         printDivider();
     }
 
+    private void printDukeHelloMessage() {
+        System.out.println("Hello from\n" + DUKE_LOGO);
+    }
+
+    private void printNoteToUser() {
+        System.out.println(NOTE_TO_USER);
+    }
+
+    // Prints welcome message to user
+    public void printWelcomeMessage() {
+        printDukeHelloMessage();
+        printDivider();
+        printNoteToUser();
+        printMessageToUser(WELCOME_MESSAGE);
+    }
+
+    // Prints exit message to user
+    public void printExitMessage() {
+        printMessageToUser(EXIT_MESSAGE);
+    }
+
     // Prints message to indicate user has added a task
     public void printTaskAddedMessage(Task task, int numberOfTasks) {
         printMessageToUser("Got it. I've added this task:" + System.lineSeparator()
@@ -102,17 +126,6 @@ public class Ui {
                 + System.lineSeparator() + "  " + task);
     }
 
-
-    // Prints welcome message to user
-    public void printWelcomeMessage() {
-        System.out.println("Hello from\n" + DUKE_LOGO);
-        printMessageToUser(WELCOME_MESSAGE);
-    }
-
-    // Prints exit message to user
-    public void printExitMessage() {
-        printMessageToUser(EXIT_MESSAGE);
-    }
 
     // Prints list out for user when list command is received.
     public void printTasks(ArrayList<Task> tasks) {
