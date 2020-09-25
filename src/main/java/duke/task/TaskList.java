@@ -1,8 +1,10 @@
 package duke.task;
 
+import duke.parser.DateParser;
 import duke.ui.Ui;
 import duke.exception.DukeException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static java.util.stream.Collectors.toList;
@@ -147,6 +149,15 @@ public class TaskList {
         }
 
         Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
+
+        LocalDate deadlineDate = DateParser.getTaskDate(newDeadlineTask.getDeadline());
+        newDeadlineTask.setDate(deadlineDate);
+
+        if (deadlineDate != null) {
+            String newDeadline = DateParser.newDateDescription(newDeadlineTask.getDeadline(), deadlineDate);
+            newDeadlineTask.setDeadline(newDeadline);
+        }
+
         tasks.add(newDeadlineTask);
 
         // Notifies user that task has been added
@@ -177,6 +188,15 @@ public class TaskList {
         }
 
         Event newEventTask = new Event(eventTaskDescription, eventTime);
+
+        LocalDate eventDate = DateParser.getTaskDate(newEventTask.getEventTime());
+        newEventTask.setDate(eventDate);
+
+        if (eventDate != null) {
+            String newEventTime = DateParser.newDateDescription(newEventTask.getEventTime(), eventDate);
+            newEventTask.setEventTime(newEventTime);
+        }
+
         tasks.add(newEventTask);
 
         // Notifies user that task has been added
