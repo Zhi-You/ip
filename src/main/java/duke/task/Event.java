@@ -1,5 +1,7 @@
 package duke.task;
 
+import java.time.LocalDate;
+
 /**
  * Represents an Event task. An <code>Event</code> object corresponds to
  * a task represented by its done status, task description and event timing
@@ -10,6 +12,24 @@ public class Event extends Task {
     private final String TASK_INDICATOR = "[E]";
 
     private String eventTime;
+
+    private LocalDate date;
+
+    public String getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(String eventTime) {
+        this.eventTime = eventTime;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 
     public Event(String description, String eventTime) {
         super(description);

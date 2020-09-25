@@ -1,15 +1,16 @@
 package duke.parser;
 
-import duke.exception.DukeException;
-
 import duke.commands.Command;
 import duke.commands.DeadlineCommand;
 import duke.commands.DeleteCommand;
 import duke.commands.DoneCommand;
 import duke.commands.EventCommand;
 import duke.commands.ExitCommand;
+import duke.commands.FindCommand;
 import duke.commands.ListCommand;
 import duke.commands.TodoCommand;
+
+import duke.exception.DukeException;
 
 import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
 
@@ -44,6 +45,8 @@ public class Parser {
             return new DeadlineCommand(taskDescription);
         case EventCommand.COMMAND_WORD:
             return new EventCommand(taskDescription);
+        case FindCommand.COMMAND_WORD:
+            return new FindCommand(taskDescription);
         default:
             throw new DukeException(ERROR_UNKNOWN_COMMAND);
         }

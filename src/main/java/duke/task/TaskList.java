@@ -1,19 +1,24 @@
 package duke.task;
 
+import duke.parser.DateParser;
 import duke.ui.Ui;
 import duke.exception.DukeException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import static java.util.stream.Collectors.toList;
 
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_DEADLINE_WRONG_FORMAT;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_NOT_NUMBER;
-import static duke.exception.ErrorTypeManager.ERROR_DELETETASK_WRONG_INDEX;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_NOT_NUMBER;
+import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_EVENT_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_EVENT_WRONG_FORMAT;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
+
 
 /**
  * Represents the task list and contains methods to operate on tasks.
@@ -77,6 +82,7 @@ public class TaskList {
         ui.printTasks(tasks);
     }
 
+
     /**
      * Marks a task as done in the task list based on the index of the task passed in as
      * the task description for the done command. If the operation is carried out successfully,
@@ -107,6 +113,7 @@ public class TaskList {
         ui.printMarkAsDoneMessage(taskToBeMarkedAsDone);
     }
 
+
     /**
      * Deletes a task in the task list based on the index of the task passed in as
      * the task description for the delete command. If the operation is carried out successfully,
@@ -123,13 +130,13 @@ public class TaskList {
         try {
             taskToDeleteIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
         } catch (NumberFormatException e) {
-            throw new DukeException(ERROR_DELETETASK_NOT_NUMBER);
+            throw new DukeException(ERROR_DELETE_TASK_NOT_NUMBER);
         }
 
         try {
             taskToBeDeleted = tasks.get(taskToDeleteIndex);
         } catch (IndexOutOfBoundsException e) {
-            throw new DukeException(ERROR_DELETETASK_WRONG_INDEX);
+            throw new DukeException(ERROR_DELETE_TASK_WRONG_INDEX);
         }
 
         ui.printTaskDeletedMessage(taskToBeDeleted, getTaskCount());
@@ -176,6 +183,15 @@ public class TaskList {
         }
 
         Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
+
+        LocalDate deadlineDate = DateParser.getTaskDate(newDeadlineTask.getDeadline());
+        newDeadlineTask.setDate(deadlineDate);
+
+        if (deadlineDate != null) {
+            String newDeadline = DateParser.newDateDescription(newDeadlineTask.getDeadline(), deadlineDate);
+            newDeadlineTask.setDeadline(newDeadline);
+        }
+
         tasks.add(newDeadlineTask);
 
         ui.printTaskAddedMessage(newDeadlineTask, getTaskCount());
@@ -207,8 +223,26 @@ public class TaskList {
         }
 
         Event newEventTask = new Event(eventTaskDescription, eventTime);
+
+        LocalDate eventDate = DateParser.getTaskDate(newEventTask.getEventTime());
+        newEventTask.setDate(eventDate);
+
+        if (eventDate != null) {
+            String newEventTime = DateParser.newDateDescription(newEventTask.getEventTime(), eventDate);
+            newEventTask.setEventTime(newEventTime);
+        }
+
         tasks.add(newEventTask);
 
         ui.printTaskAddedMessage(newEventTask, getTaskCount());
+    }
+
+    // Given an index, able to mark the task at that index in the tasks arraylist to be done
+    public void findTasksAndPrint(String keyword) {
+        ArrayList<Task> foundTaskList = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> t.getDescription().contains(keyword))
+                .collect(toList());
+
+        ui.printFoundTasks(foundTaskList);
     }
 }
