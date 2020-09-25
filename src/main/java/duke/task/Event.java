@@ -1,5 +1,10 @@
 package duke.task;
 
+/**
+ * Represents an Event task. An <code>Event</code> object corresponds to
+ * a task represented by its done status, task description and event timing
+ * e.g., <code>[E][✓] project meeting  (at: Mon 2-4pm)</code>
+ */
 public class Event extends Task {
 
     private final String TASK_INDICATOR = "[E]";

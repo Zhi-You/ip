@@ -1,5 +1,10 @@
 package duke.task;
 
+/**
+ * Represents a Deadline task. A <code>Deadline</code> object corresponds to
+ * a task represented by its done status, task description and deadline
+ * e.g., <code>[D][✓] return book  (by: Sunday)</code>
+ */
 public class Deadline extends Task {
 
     private final String TASK_INDICATOR = "[D]";

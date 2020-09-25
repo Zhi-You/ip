@@ -14,11 +14,11 @@ public class ErrorMessages {
     public static final String ERROR_EVENT_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The description of an event cannot be empty.";
     public static final String ERROR_EVENT_WRONG_FORMAT_MESSAGE = SAD_FACE_EMOJI
-            + " OOPS!!! The format to enter in an event task is \"<task> /at <event's time>\"";
+            + " OOPS!!! The format to enter in an event task is \"event <task> /at <event's time>\"";
     public static final String ERROR_DEADLINE_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The description of a deadline cannot be empty.";
     public static final String ERROR_DEADLINE_WRONG_FORMAT_MESSAGE = SAD_FACE_EMOJI
-            + " OOPS!!! The format to enter in a deadline task is \"<task> /by <deadline>\"";
+            + " OOPS!!! The format to enter in a deadline task is \"deadline <task> /by <deadline>\"";
     public static final String ERROR_MARKTASKASDONE_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The description of the done command cannot be empty.";
     public static final String ERROR_MARKTASKASDONE_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
