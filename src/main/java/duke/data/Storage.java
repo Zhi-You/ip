@@ -13,22 +13,30 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_TYPE;
 import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
+/**
+ * Represents a storage for user's list of tasks in the machine's local filesystem.
+ * A <code>Storage</code> object corresponds to the location where user's data is saved, represented by a
+ * filepath, e.g., <code>data/tasks.txt</code>
+ */
 public class Storage {
-    // Specifying file paths in an OS-independent way
-    private final String CURRENT_DIRECTORY = System.getProperty("user.dir");
-
-    // Different parts of a task when it is converted to a String
     private final int TASK_TYPE_INDICATOR = 1;
     private final int START_OF_TASK_DESCRIPTION = 7;
     private final String DEADLINE_TASK_DELIMITER = " \\(by:";
     private final String EVENT_TASK_DELIMITER = " \\(at:";
 
+    /** Filepath of user's current directory, retrieved in an OS-independent way */
+    private final String CURRENT_DIRECTORY = System.getProperty("user.dir");
     private final Path dataDirectoryPath;
     private final Path dataFilePath;
 
+    /**
+     * Creates a Storage object to save data into the specified filepath.
+     *
+     * @param filepath Location of where data should be stored.
+     */
     public Storage(String filepath) {
         String directoryName = filepath.split("/")[0];
         String fileName = filepath.split("/")[1];
@@ -37,15 +45,20 @@ public class Storage {
         dataFilePath = Paths.get(CURRENT_DIRECTORY, directoryName, fileName);
     }
 
+    /**
+     * Saves user's list of tasks into a text file.
+     *
+     * @param tasks List of Task objects to be saved.
+     * @throws DukeException If there is an error while writing to the file.
+     */
     public void saveTasksData(ArrayList<Task> tasks) throws DukeException {
         ArrayList<String> tasksStringList = new ArrayList<>();
 
-        // Get a string representation of the tasks and store it into an ArrayList
+        // Gets a list of string representations of task objects that are to be stored into the text file
         for (int i = 0; i < tasks.size(); i++) {
             tasksStringList.add(tasks.get(i).toString());
         }
 
-        // Write tasks to data file - a text file
         try {
             Files.write(dataFilePath, tasksStringList);
         } catch (IOException e) {
@@ -53,31 +66,32 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from a text file located in the filepath specified in the Storage object.
+     * If tasks are formatted properly in the save file, tasks will be loaded appropriately
+     * according to their type (Deadline, Event or Todo).
+     *
+     * @return List of tasks.
+     * @throws DukeException If there is an error reading from the file or if a task type is incorrect.
+     */
     public ArrayList<Task> loadTasksData() throws DukeException {
-        // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
-        createSaveLocationIfNotExist();
+        createSaveFileIfNotExist();
 
         ArrayList<Task> loadedTasks = new ArrayList<>();
         ArrayList<String> loadedTasksStringList;
 
-        // Requires casting as it only returns a list - superclass of arrayList
-        // Read from the saved file - if any
         try {
+            // Casting into an ArrayList because readAllLines returns a List
             loadedTasksStringList = (ArrayList<String>) Files.readAllLines(dataFilePath);
         } catch (IOException e) {
             throw new DukeException(ERROR_WITH_FILE);
         }
 
         for (String task : loadedTasksStringList) {
-
+            // Using a TaskType enum to identify what type the task to be loaded is
             TaskType taskType;
-
-            // Throws task type while catching unknown-task-type error
             taskType = getTaskType(task.charAt(TASK_TYPE_INDICATOR));
 
-
-            // Using enums to check the type of task we are dealing with.
-            // Unlikely to go to the default statement since enums are fixed values
             switch(taskType) {
             case TODO:
                 loadTodoTask(task, loadedTasks);
@@ -89,21 +103,22 @@ public class Storage {
                 loadEventTask(task, loadedTasks);
                 break;
             default:
-                throw new DukeException(ERROR_UNKNOWN_TASK_INDICATOR);
+                throw new DukeException(ERROR_UNKNOWN_TASK_TYPE);
             }
         }
-
         return loadedTasks;
     }
 
-    // If folder (data) and file (duke.txt) for saving and loading does not exist yet, create one for user.
-    private void createSaveLocationIfNotExist() throws DukeException {
-        // Create 'data' folder if it does not already exists
+    /**
+     * Creates the data folder or file if any of them does not already exist.
+     *
+     * @throws DukeException If there is an error creating the folder or the file.
+     */
+    private void createSaveFileIfNotExist() throws DukeException {
         try {
             if (!Files.exists(dataDirectoryPath)) {
                 Files.createDirectory(dataDirectoryPath);
             }
-            // Create 'duke.txt' file if it does not already exists
             if (!Files.exists(dataFilePath)) {
                 Files.createFile(dataFilePath);
             }
@@ -112,9 +127,7 @@ public class Storage {
         }
     }
 
-    // Identifies the given task type
     private static TaskType getTaskType(char taskTypeIndicator) throws DukeException {
-        // No breaks required as return statements are used
         switch(taskTypeIndicator) {
         case 'T':
             return TaskType.TODO;
@@ -123,63 +136,50 @@ public class Storage {
         case 'E':
             return TaskType.EVENT;
         default:
-            throw new DukeException(ERROR_UNKNOWN_TASK_INDICATOR);
+            throw new DukeException(ERROR_UNKNOWN_TASK_TYPE);
         }
     }
 
-    // Identify if task was marked as done before and mark it as done in current session if yes
     private void markTaskDoneIfDone (String task, ArrayList<Task> loadedTasks) {
         if (task.contains(Task.TICK_SYMBOL)) {
             loadedTasks.get(loadedTasks.size() - 1).markAsDone();
         }
     }
 
-    // Exceptions are already handled in Duke.java and hence we will assume these are appropriate tasks
-    // No need to notify user that the task has been added too
     private void loadTodoTask(String task, ArrayList<Task> loadedTasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
-        // Load saved to_do task into current tasks
         Todo newTodoTask = new Todo(taskDescription);
         loadedTasks.add(newTodoTask);
 
-        // Recover its isDone status
         markTaskDoneIfDone(task, loadedTasks);
     }
 
-    // Deadline tasks should be in the right format since exceptions were handled in Duke.java
-    // No need to notify user that the task has been added too
     private void loadDeadlineTask(String task, ArrayList<Task> loadedTasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
         String[] deadlineTaskParts = taskDescription.split(DEADLINE_TASK_DELIMITER);
         String deadlineTaskDescription = deadlineTaskParts[0];
-        // Took the substring of the deadline portion because we want to ignore the closing bracket at the end
+        // Ignores the closing bracket of the saved task in the text file by taking length of substring - 1
         String deadline = deadlineTaskParts[1].substring(0, deadlineTaskParts[1].length() - 1);
 
-        // Load saved deadline task into current tasks
         Deadline newDeadlineTask = new Deadline(deadlineTaskDescription, deadline);
         loadedTasks.add(newDeadlineTask);
 
-        // Recover its isDone status
         markTaskDoneIfDone(task, loadedTasks);
     }
 
-    // Event tasks should be in the right format since exceptions were handled in Duke.java
-    // No need to notify user that the task has been added too
     private void loadEventTask(String task, ArrayList<Task> loadedTasks) {
         String taskDescription = task.substring(START_OF_TASK_DESCRIPTION);
 
         String[] eventTaskParts = taskDescription.split(EVENT_TASK_DELIMITER);
         String eventTaskDescription = eventTaskParts[0];
-        // Took the substring of the deadline portion because we want to ignore the closing bracket at the end
+        // Ignores the closing bracket of the saved task in the text file by taking length of substring - 1
         String eventTime = eventTaskParts[1].substring(0, eventTaskParts[1].length() - 1);
 
-        // Load saved event task into current tasks
         Event newEventTask = new Event(eventTaskDescription, eventTime);
         loadedTasks.add(newEventTask);
 
-        // Recover its isDone status
         markTaskDoneIfDone(task, loadedTasks);
     }
 }

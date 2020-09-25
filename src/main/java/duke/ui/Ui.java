@@ -33,7 +33,7 @@ import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
-import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_TYPE;
 import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
 public class Ui {
@@ -184,7 +184,7 @@ public class Ui {
         case ERROR_DELETETASK_WRONG_INDEX:
             printMessageToUser(ERROR_DELETETASK_WRONG_INDEX_MESSAGE);
             break;
-        case ERROR_UNKNOWN_TASK_INDICATOR:
+        case ERROR_UNKNOWN_TASK_TYPE:
             printMessageToUser(ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE);
             break;
         case ERROR_WITH_FILE:

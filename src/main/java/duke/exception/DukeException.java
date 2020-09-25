@@ -1,10 +1,15 @@
 package duke.exception;
 
-// Using errorType string to differentiate what type of error we are facing with
-// To allow duke.DisplayManager to know what message to print through a switch statement
-// Note: initially wanted to use an enum but that was not an option anymore as we should pass
-// in a string instead to identify the type of error
-public class DukeException extends Exception{
+/**
+ * Signals an error when running Duke.
+ */
+public class DukeException extends Exception {
+    /**
+     * Covers all the different type of exceptions that can occur when running Duke.
+     * Uses <code>e.getMessage</code> to identify which specific error has occurred.
+     *
+     * @param errorType Identifies the specific error corresponding to one of the errors in ErrorTypeManager.
+     */
     public DukeException(String errorType) {
         super(errorType);
     }

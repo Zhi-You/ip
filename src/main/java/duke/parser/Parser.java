@@ -13,13 +13,22 @@ import duke.commands.TodoCommand;
 
 import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
 
+/**
+ * Represents a parser that parses user inputs into commands.
+ */
 public class Parser {
 
+    /**
+     * Parses user input into command for execution.
+     *
+     * @param userInput Full user input.
+     * @return The command object based on the user input.
+     * @throws DukeException If the command parsed is an unknown command.
+     */
     public static Command parse(String userInput) throws DukeException {
         String command = getCommandFromInput(userInput);
         String taskDescription = getTaskDescriptionFromInput(userInput);
 
-        // Duke reads user commands and either show task list, mark task as done or add task
         switch (command) {
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
@@ -40,23 +49,20 @@ public class Parser {
         }
     }
 
-    // Extracts command word from user inputs to decide what Duke will do
     private static String getCommandFromInput(String userInput) {
-        // Splits user input into different words to distinguish between command and task's information
+        // Splits user input into different words to distinguish the command from the task's information
         String[] inputParts = userInput.split(" ");
 
-        // User's command can be found in the first word of user's inputs
-        return inputParts[0].toLowerCase();
+        String command = inputParts[0].toLowerCase();
+        return command;
     }
 
-    // Extracts task information from user inputs to decide what kind of task to add to list
     private static String getTaskDescriptionFromInput(String userInput) {
-        // Splits user input into different words to distinguish between command and task's information
         String[] inputParts = userInput.split(" ");
 
         String taskDescription = "";
 
-        // Gets the informative parts from user input after the command (first word)
+        // Forms the task description after splitting user input into words and ignoring the command word
         for (int i = 1; i < inputParts.length; i++) {
             taskDescription = String.join(" ", taskDescription, inputParts[i]);
         }
@@ -64,5 +70,4 @@ public class Parser {
 
         return taskDescription;
     }
-
 }

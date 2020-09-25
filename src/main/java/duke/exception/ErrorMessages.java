@@ -1,7 +1,11 @@
 package duke.exception;
 
+/**
+ * Represents a collection of error messages to print out to the user
+ * based on the type of error that occurred.
+ */
 public class ErrorMessages {
-    // Duke Error messages
+    // Duke related error messages
     public static final String SAD_FACE_EMOJI = "\u2639";
     public static final String ERROR_COMMAND_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! I'm sorry, but I don't know what that means :-(";
@@ -35,5 +39,4 @@ public class ErrorMessages {
     // File Error message
     public static final String FILE_ERROR_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! Something is wrong with accessing the save file. Please check again";
-
 }
