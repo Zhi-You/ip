@@ -37,18 +37,4 @@ delete 2
 list
 delete 1
 list
-deadline test parse date OK /by 2020-09-24 10pm
-deadline test parse date /by 2020-09-224 10pm
-deadline test parse date /by no Date 10pm
-event test parse date OK /at 2020-09-24 11pm
-event test parse date /at 2020-09-00
-event test parse date /at no Date
-list
-done 6
-done 9
-done 10
-list
-deadline test parse date OK /by 2020-10-10
-done 12
-delete 12
 bye
