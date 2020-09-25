@@ -168,18 +168,63 @@ ______________________________________________________
 ```
 
 
+### `done` - Marks a task as done 
+Marks the specified task as a completed task and its done status icon will automatically be updated to a tick to reflect this.
 
-Describe action and its outcome.
+You can specify the task using its index in the task list.
 
 Example of usage: 
-
-`keyword (optional arguments)`
+```
+done 2
+```
 
 Expected outcome:
 
-`outcome`
+```
+______________________________________________________
+Nice! I've marked this task as done: 
+  [D][✓] finish math assignment  (by: Oct 10 2020)
+______________________________________________________
+```
+
+Using `list` now, the following task list will be displayed:
+
+```
+______________________________________________________
+1.[T][✘] return book
+2.[D][✓] finish math assignment  (by: Oct 10 2020)
+3.[E][✘] project meeting  (at: Nov 11 2020 3pm at YIH)
+______________________________________________________
+```
 
 
-(Available commands are: '', '', '',
-'', '', '', '' and '')
-(Note: Dates should be given in 'yyyy-mm-dd' format)
+### `delete` - Deletes a task from your task list
+Removes a task, that you specify, from the task list.
+
+
+You can specify the task using its index in the task list.
+
+Example of usage: 
+```
+delete 2
+```
+
+Expected outcome:
+
+```
+______________________________________________________
+Noted. I've removed this task: 
+  [D][✓] finish math assignment  (by: Oct 10 2020)
+Now you have 30 tasks in the list.
+______________________________________________________
+```
+
+Using `list` now, the following task list will be displayed:
+
+```
+______________________________________________________
+1.[T][✘] return book
+2.[E][✘] project meeting  (at: Nov 11 2020 3pm at YIH)
+______________________________________________________
+```
+
