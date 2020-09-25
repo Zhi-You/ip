@@ -21,11 +21,9 @@ import static duke.exception.ErrorTypeManager.ERROR_NO_DATA_TO_LOAD;
 
 
 /**
- * Represents the entire list of tasks entered by the user during runtime and from
- * the data loaded from previous instances of program usage.
+ * Represents the task list and contains methods to operate on tasks.
  */
 public class TaskList {
-
     private final String DEADLINE_TASK_DELIMITER = "/by";
     private final String EVENT_TASK_DELIMITER = "/at";
 
@@ -33,7 +31,13 @@ public class TaskList {
 
     private final Ui ui;
 
-    /** Constructs task list from stored data */
+    /**
+     * Constructs task list from stored data (if any).
+     * Also creates a new Ui object and prints a success message if data was loaded successfully.
+     *
+     * @param loadedTasks List of tasks loaded from save file.
+     * @throws DukeException If there is no loaded data.
+     */
     public TaskList(ArrayList<Task> loadedTasks) throws DukeException {
         if (loadedTasks.size() == 0) {
             throw new DukeException(ERROR_NO_DATA_TO_LOAD);
@@ -44,40 +48,60 @@ public class TaskList {
         ui.printSuccessfulDataLoading();
     }
 
+    /**
+     * Constructs an empty task list if there is no data to be loaded.
+     * Creates a new Ui object as well.
+     */
     public TaskList() {
         tasks = new ArrayList<>();
         ui = new Ui();
     }
 
+    /**
+     * Returns a list of tasks that the user has currently.
+     *
+     * @return An ArrayList of tasks.
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }
 
+    /**
+     * Returns the current count for the number of tasks in the task list.
+     *
+     * @return Number of tasks in the task list.
+     */
     public int getTaskCount() {
         return tasks.size();
     }
 
-
+    /**
+     * Prints the list of tasks to the user.
+     */
     public void printTaskList() {
         ui.printTasks(tasks);
     }
 
 
-    // Given an index, able to mark the task at that index in the tasks arraylist to be done
-    public void markTaskAsDone(String taskIndexDescription) throws DukeException {
+    /**
+     * Marks a task as done in the task list based on the index of the task passed in as
+     * the task description for the done command. If the operation is carried out successfully,
+     * a message will be printed out to notify the user that the specific task is marked as done.
+     *
+     * @param taskDescription Description of the task to be marked as done in the form of its index.
+     * @throws DukeException If the task description is not a number to parse,
+     * or if the index passed in does not correspond to any task in the task list.
+     */
+    public void markTaskAsDone(String taskDescription) throws DukeException {
         int completedTaskIndex;
         Task taskToBeMarkedAsDone;
 
-        // Gets index of the task user specified to be done
-        // Catch exceptions whereby if index specified is not in numeric form
         try {
-            completedTaskIndex = Integer.parseInt(taskIndexDescription.split(" ")[0]) - 1;
+            completedTaskIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
         } catch (NumberFormatException e) {
             throw new DukeException(ERROR_MARKTASKASDONE_NOT_NUMBER);
         }
 
-        // Marks specified task as done
-        // Catch exceptions whereby user specified a negative index or an index without a task stored yet
         try {
             taskToBeMarkedAsDone = tasks.get(completedTaskIndex);
         } catch (IndexOutOfBoundsException e) {
@@ -86,28 +110,30 @@ public class TaskList {
 
         taskToBeMarkedAsDone.markAsDone();
 
-        // Notifies user that the task is marked as done
         ui.printMarkAsDoneMessage(taskToBeMarkedAsDone);
     }
 
-    // Given an index, able to delete the task at that index in the tasks arraylist
-    public void deleteTask(String taskIndexDescription) throws DukeException {
+
+    /**
+     * Deletes a task in the task list based on the index of the task passed in as
+     * the task description for the delete command. If the operation is carried out successfully,
+     * a message will be printed out to notify the user that the specific task is deleted.
+     *
+     * @param taskDescription Description of the task to be deleted in the form of its index.
+     * @throws DukeException If the task description is not a number to parse,
+     * or if the index passed in does not correspond to any task in the task list.
+     */
+    public void deleteTask(String taskDescription) throws DukeException {
         int taskToDeleteIndex;
         Task taskToBeDeleted;
 
-        // Gets index of the task user specified to be deleted
-        // Catch exceptions whereby if index specified is not in numeric form
         try {
-            taskToDeleteIndex = Integer.parseInt(taskIndexDescription.split(" ")[0]) - 1;
+            taskToDeleteIndex = Integer.parseInt(taskDescription.split(" ")[0]) - 1;
         } catch (NumberFormatException e) {
             throw new DukeException(ERROR_DELETE_TASK_NOT_NUMBER);
         }
 
-        // Delete specified task
-        // Catch exceptions whereby user specified a negative index or an index without a task stored yet
         try {
-            // Notifies user that the task is deleted.
-            // Prints message using the task instance before it is deleted.
             taskToBeDeleted = tasks.get(taskToDeleteIndex);
         } catch (IndexOutOfBoundsException e) {
             throw new DukeException(ERROR_DELETE_TASK_WRONG_INDEX);
@@ -117,24 +143,35 @@ public class TaskList {
         tasks.remove(taskToBeDeleted);
     }
 
-    // Adds ToDos typed task into the tasks arraylist
+
+    /**
+     * Adds a Todo task, with its description filled, into the task list.
+     * Prints a message to notify the user if the Todo task is added successfully.
+     *
+     * @param taskDescription Description of the todo task to be added.
+     */
     public void addTodoTask(String taskDescription) {
         Todo newTodoTask = new Todo(taskDescription);
         tasks.add(newTodoTask);
 
-        // Notifies user that task has been added
         ui.printTaskAddedMessage(newTodoTask, getTaskCount());
     }
 
 
-    // Adds Deadline typed task into the tasks arraylist
+    /**
+     * Adds a Deadline task, with its description and deadline filled, into the task list.
+     * If task description contains a string of the form 'yyyy-mm-dd', it would be parsed as a LocalDate object.
+     * Prints a message to notify the user if the Deadline task is added successfully.
+     *
+     * @param taskDescription Description of the Deadline task and its deadline.
+     * @throws DukeException If the Deadline task description is given in a wrong format or if it is empty.
+     */
     public void addDeadlineTask(String taskDescription) throws DukeException {
-        // Splits user input into task details and deadline
+        // Splits full task description into task details and deadline
         String[] taskDescriptionParts = taskDescription.split(DEADLINE_TASK_DELIMITER);
         String deadlineTaskDescription;
         String deadline;
-        // Catches exceptions where user does not specify deadline in the correct format
-        // Also catches specific input of: "deadline /by " where both description and deadline are empty
+
         try {
             deadlineTaskDescription = taskDescriptionParts[0];
             deadline = taskDescriptionParts[1];
@@ -142,8 +179,6 @@ public class TaskList {
             throw new DukeException(ERROR_DEADLINE_WRONG_FORMAT);
         }
 
-        // Catches the exception whereby user did not input any task description but has a deadline
-        // Sample input that will get caught: "deadline /by tmr"
         if (deadlineTaskDescription.isBlank()) {
             throw new DukeException(ERROR_DEADLINE_EMPTY_DESCRIPTION);
         }
@@ -153,6 +188,7 @@ public class TaskList {
         LocalDate deadlineDate = DateParser.getTaskDate(newDeadlineTask.getDeadline());
         newDeadlineTask.setDate(deadlineDate);
 
+        // Updates task description to reflect the formatted date
         if (deadlineDate != null) {
             String newDeadline = DateParser.newDateDescription(newDeadlineTask.getDeadline(), deadlineDate);
             newDeadlineTask.setDeadline(newDeadline);
@@ -160,20 +196,24 @@ public class TaskList {
 
         tasks.add(newDeadlineTask);
 
-        // Notifies user that task has been added
         ui.printTaskAddedMessage(newDeadlineTask, getTaskCount());
     }
 
 
-    // Adds Event typed task into the tasks arraylist
+    /**
+     * Adds an Event task, with its description and event time filled, into the task list.
+     * If task description contains a string of the form 'yyyy-mm-dd', it would be parsed as a LocalDate object.
+     * Prints a message to notify the user if the Event task is added successfully.
+     *
+     * @param taskDescription Description of the Event task and its event time.
+     * @throws DukeException If the Event task description is given in a wrong format or if it is empty.
+     */
     public void addEventTask(String taskDescription) throws DukeException {
-        // Splits user input into task details and event timing
+        // Splits full task description into task details and event timing
         String[] taskDescriptionParts = taskDescription.split(EVENT_TASK_DELIMITER);
         String eventTaskDescription;
         String eventTime;
 
-        // Catches exceptions where user does not specify event in the correct format
-        // Also catches specific input of: "event /at " where both description and event time are empty
         try {
             eventTaskDescription = taskDescriptionParts[0];
             eventTime = taskDescriptionParts[1];
@@ -181,8 +221,6 @@ public class TaskList {
             throw new DukeException(ERROR_EVENT_WRONG_FORMAT);
         }
 
-        // Catches the exception whereby user did not input any task description but has an event time
-        // Sample input that will get caught: "event /at tmr"
         if (eventTaskDescription.isBlank()) {
             throw new DukeException(ERROR_EVENT_EMPTY_DESCRIPTION);
         }
@@ -192,6 +230,7 @@ public class TaskList {
         LocalDate eventDate = DateParser.getTaskDate(newEventTask.getEventTime());
         newEventTask.setDate(eventDate);
 
+        // Updates task description to reflect the formatted date
         if (eventDate != null) {
             String newEventTime = DateParser.newDateDescription(newEventTask.getEventTime(), eventDate);
             newEventTask.setEventTime(newEventTime);
@@ -199,11 +238,14 @@ public class TaskList {
 
         tasks.add(newEventTask);
 
-        // Notifies user that task has been added
         ui.printTaskAddedMessage(newEventTask, getTaskCount());
     }
 
-    // Given an index, able to mark the task at that index in the tasks arraylist to be done
+    /**
+     * Prints the list of tasks that contains the keyword as specified by the user.
+     *
+     * @param keyword Search keyword to find tasks that contain it.
+     */
     public void findTasksAndPrint(String keyword) {
         ArrayList<Task> foundTaskList = (ArrayList<Task>) tasks.stream()
                 .filter((t) -> t.getDescription().contains(keyword))

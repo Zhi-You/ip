@@ -6,6 +6,9 @@ import duke.task.TaskList;
 
 import static duke.exception.ErrorTypeManager.ERROR_FIND_TASK_EMPTY_DESCRIPTION;
 
+/**
+ * Finds all tasks that contains a certain keyword.
+ */
 public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 

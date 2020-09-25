@@ -35,7 +35,7 @@ import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_NOT_NUMBER;
 import static duke.exception.ErrorTypeManager.ERROR_MARKTASKASDONE_WRONG_INDEX;
 import static duke.exception.ErrorTypeManager.ERROR_TODO_EMPTY_DESCRIPTION;
 import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_COMMAND;
-import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_INDICATOR;
+import static duke.exception.ErrorTypeManager.ERROR_UNKNOWN_TASK_TYPE;
 import static duke.exception.ErrorTypeManager.ERROR_WITH_FILE;
 
 public class Ui {
@@ -46,38 +46,45 @@ public class Ui {
     private final String NOTE_TO_USER = "(Available commands are: 'list', 'todo', 'event',"
             + System.lineSeparator() + "'deadline', 'done', 'delete', 'find' and 'bye')"
             + System.lineSeparator() + "(Note: Dates should be given in 'yyyy-mm-dd' format)";
-
     private final String DUKE_LOGO = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
-
     private final String EXIT_MESSAGE = "Bye. Hope to see you again soon!";
 
-
-    // file load status
     private final String SUCCESSFUL_DATA_LOAD_MESSAGE = "(Note: "
             + "Your saved data was successfully loaded!)";
     private final String FAIL_DATA_LOAD_MESSAGE = "(Note: "
             + "Could not detect any saved data!)";
 
-    private final String NO_MATCHING_TASK_MESSAGE = "There are no matching tasks in your list.";
 
+    private final String NO_MATCHING_TASK_MESSAGE = "There are no matching tasks in your list.";
 
     private final Scanner SCANNER = new Scanner(System.in);
 
 
+    /**
+     * Gets input from the user and returns it as a string.
+     *
+     * @return User input.
+     */
     public String getUserInput() {
         return SCANNER.nextLine();
     }
 
-    // Prints horizontal lines to wrap output for a clearer display
+    /**
+     * Prints a horizontal line as a divider for clearer display of messages.
+     */
     public void printDivider() {
         System.out.println(DIVIDER);
     }
 
-    // Prints message to user wrapped with horizontal lines for clear display
+    /**
+     * Prints a message wrapped in horizontal lines for a clearer display.
+     *
+     * @param message Message to be printed to the user.
+     */
     public void printMessageToUser(String message) {
         printDivider();
         System.out.println(message);
@@ -88,11 +95,17 @@ public class Ui {
         System.out.println("Hello from\n" + DUKE_LOGO);
     }
 
+    /**
+     * Prints a note to user to help them get started with using Duke.
+     */
     private void printNoteToUser() {
         System.out.println(NOTE_TO_USER);
     }
 
-    // Prints welcome message to user
+    /**
+     * Prints a welcome message at the start of program execution that consists
+     * of greetings, Duke's logo and a note to user to help them get started with using Duke.
+     */
     public void printWelcomeMessage() {
         printDukeHelloMessage();
         printDivider();
@@ -100,38 +113,64 @@ public class Ui {
         printMessageToUser(WELCOME_MESSAGE);
     }
 
-    // Prints exit message to user
+    /**
+     * Prints an exit message upon the termination of the program.
+     */
     public void printExitMessage() {
         printMessageToUser(EXIT_MESSAGE);
     }
 
-    // Prints message to indicate user has added a task
+    /**
+     * Prints a message to notify the user that a specific task is successfully added to the
+     * task list. Includes information of how many tasks are currently in the list.
+     *
+     * @param task Task being added to the task list.
+     * @param numberOfTasks Number of tasks currently in the task list.
+     */
     public void printTaskAddedMessage(Task task, int numberOfTasks) {
         printMessageToUser("Got it. I've added this task:" + System.lineSeparator()
                 + "  " + task + System.lineSeparator()
                 + printTaskCount(numberOfTasks));
     }
 
-    // Prints message to indicate user has deleted a task
+    /**
+     * Prints a message to notify the user that a specific task is successfully deleted from the
+     * task list. Includes information of how many tasks are remaining in the list.
+     *
+     * @param task Task being deleted from the task list.
+     * @param numberOfTasks Number of tasks remaining in the task list.
+     */
     public void printTaskDeletedMessage (Task task, int numberOfTasks) {
         printMessageToUser("Noted. I've removed this task: " + System.lineSeparator()
                 + "  " + task + System.lineSeparator()
                 + printTaskCount(numberOfTasks - 1));
     }
 
-    // Prints the current count of the tasks in the task ArrayList
+    /**
+     * Returns a string containing information about the number of tasks currently in the task list.
+     *
+     * @param numberOfTasks Number of tasks currently in the task list.
+     */
     public String printTaskCount(int numberOfTasks) {
         return("Now you have " + numberOfTasks +
                 (numberOfTasks == 1 ? " task in the list." : " tasks in the list."));
     }
 
-    // Prints message to indicate user has marked a task as done
+    /**
+     * Prints a message to notify the user that a specific task is successfully marked as done.
+     *
+     * @param task Task being marked as done.
+     */
     public void printMarkAsDoneMessage(Task task) {
         printMessageToUser("Nice! I've marked this task as done: "
                 + System.lineSeparator() + "  " + task);
     }
 
-    // Prints list out for user when list command is received.
+    /**
+     * Prints the list of tasks to the user.
+     *
+     * @param tasks List of tasks the user has.
+     */
     public void printTasks(ArrayList<Task> tasks) {
         printDivider();
         System.out.println("Here are the tasks in your list: ");
@@ -141,6 +180,13 @@ public class Ui {
         printDivider();
     }
 
+
+    /**
+     * Prints the list of tasks that contains a keyword in their description.
+     * Notifies user if there is no task contains the keyword they are searching for.
+     *
+     * @param tasks List of tasks containing the keyword in their description.
+     */
     public void printFoundTasks(ArrayList<Task> tasks) {
         printDivider();
         if (tasks.size() == 0) {
@@ -154,15 +200,27 @@ public class Ui {
         printDivider();
     }
 
+    /**
+     * Prints a message to notify the user that task list data was successfully loaded into the
+     * current program instance.
+     */
     public void printSuccessfulDataLoading() {
         System.out.println(SUCCESSFUL_DATA_LOAD_MESSAGE);
     }
 
+    /**
+     * Prints a message to notify the user that no task list data was detected.
+     */
     public void printNoDataLoaded() {
         System.out.println(FAIL_DATA_LOAD_MESSAGE);
     }
 
-    // Prints different error messages for different exceptions encountered
+
+    /**
+     * Prints an error message, according to the specific error that occurred, to the user.
+     *
+     * @param errorType Identity of the error that occurred.
+     */
     public void printDukeErrorMessage(String errorType) {
         switch (errorType) {
         case ERROR_UNKNOWN_COMMAND:
@@ -204,7 +262,7 @@ public class Ui {
         case ERROR_FIND_TASK_EMPTY_DESCRIPTION:
             printMessageToUser(ERROR_FIND_TASK_EMPTY_DESCRIPTION_MESSAGE);
             break;
-        case ERROR_UNKNOWN_TASK_INDICATOR:
+        case ERROR_UNKNOWN_TASK_TYPE:
             printMessageToUser(ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE);
             break;
         case ERROR_WITH_FILE:

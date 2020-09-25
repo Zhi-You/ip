@@ -109,25 +109,25 @@ ______________________________________________________
 ☹ OOPS!!! The description of an event cannot be empty.
 ______________________________________________________
 ______________________________________________________
-☹ OOPS!!! The format to enter in an event task is "<task> /at <event's time>"
+☹ OOPS!!! The format to enter in an event task is "event <task> /at <event's time>"
 ______________________________________________________
 ______________________________________________________
 ☹ OOPS!!! The description of an event cannot be empty.
 ______________________________________________________
 ______________________________________________________
-☹ OOPS!!! The format to enter in an event task is "<task> /at <event's time>"
+☹ OOPS!!! The format to enter in an event task is "event <task> /at <event's time>"
 ______________________________________________________
 ______________________________________________________
 ☹ OOPS!!! The description of a deadline cannot be empty.
 ______________________________________________________
 ______________________________________________________
-☹ OOPS!!! The format to enter in a deadline task is "<task> /by <deadline>"
+☹ OOPS!!! The format to enter in a deadline task is "deadline <task> /by <deadline>"
 ______________________________________________________
 ______________________________________________________
 ☹ OOPS!!! The description of a deadline cannot be empty.
 ______________________________________________________
 ______________________________________________________
-☹ OOPS!!! The format to enter in a deadline task is "<task> /by <deadline>"
+☹ OOPS!!! The format to enter in a deadline task is "deadline <task> /by <deadline>"
 ______________________________________________________
 ______________________________________________________
 ☹ OOPS!!! The description of the done command cannot be empty.
