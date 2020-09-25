@@ -21,12 +21,14 @@ public class ErrorMessages {
             + " OOPS!!! The task to mark as done must be an existing task.";
     public static final String ERROR_MARKTASKASDONE_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! Use numbers to specify which task to be marked as done.";
-    public static final String ERROR_DELETETASK_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+    public static final String ERROR_DELETE_TASK_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The description of the delete command cannot be empty.";
-    public static final String ERROR_DELETETASK_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
+    public static final String ERROR_DELETE_TASK_NOT_NUMBER_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! Use numbers to specify which task to be deleted.";
-    public static final String ERROR_DELETETASK_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
+    public static final String ERROR_DELETE_TASK_WRONG_INDEX_MESSAGE = SAD_FACE_EMOJI
             + " OOPS!!! The task to be deleted must be an existing task.";
+    public static final String ERROR_FIND_TASK_EMPTY_DESCRIPTION_MESSAGE = SAD_FACE_EMOJI
+            + " OOPS!!! The description of the find command cannot be empty.";
     public static final String UNEXPECTED_ERROR = SAD_FACE_EMOJI
             + " OOPS!!! An unidentified error has occurred! Please take note!";
     public static final String ERROR_UNKNOWN_TASK_INDICATOR_MESSAGE =  SAD_FACE_EMOJI

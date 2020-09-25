@@ -37,10 +37,19 @@ delete 2
 list
 delete 1
 list
+find hi
+find why
+find homework
+find work
+find book
+find project
+find o
+find
+list
 deadline test parse date OK /by 2020-09-24 10pm
 deadline test parse date /by 2020-09-224 10pm
 deadline test parse date /by no Date 10pm
-event test parse date OK /at 2020-09-24 11pm
+event test parse date OK /at 2020-12-24 11pm
 event test parse date /at 2020-09-00
 event test parse date /at no Date
 list

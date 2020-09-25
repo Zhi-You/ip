@@ -4,27 +4,26 @@ import duke.exception.DukeException;
 import duke.data.Storage;
 import duke.task.TaskList;
 
-import static duke.exception.ErrorTypeManager.ERROR_DELETE_TASK_EMPTY_DESCRIPTION;
+import static duke.exception.ErrorTypeManager.ERROR_FIND_TASK_EMPTY_DESCRIPTION;
 
+public class FindCommand extends Command {
+    public static final String COMMAND_WORD = "find";
 
-public class DeleteCommand extends Command {
-    public static final String COMMAND_WORD = "delete";
-
-    public DeleteCommand(String taskDescription) {
+    public FindCommand(String taskDescription) {
         this.taskDescription = taskDescription;
     }
 
     @Override
     public void execute(TaskList taskList, Storage storage) throws DukeException {
         checkTaskDescriptionNotEmpty();
-        taskList.deleteTask(taskDescription);
+        taskList.findTasksAndPrint(taskDescription);
 
         super.execute(taskList, storage);
     }
 
     private void checkTaskDescriptionNotEmpty() throws DukeException {
         if (taskDescription.isBlank()) {
-            throw new DukeException(ERROR_DELETE_TASK_EMPTY_DESCRIPTION);
+            throw new DukeException(ERROR_FIND_TASK_EMPTY_DESCRIPTION);
         }
     }
 }
