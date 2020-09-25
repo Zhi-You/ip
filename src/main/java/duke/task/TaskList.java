@@ -160,6 +160,7 @@ public class TaskList {
 
     /**
      * Adds a Deadline task, with its description and deadline filled, into the task list.
+     * If task description contains a string of the form 'yyyy-mm-dd', it would be parsed as a LocalDate object.
      * Prints a message to notify the user if the Deadline task is added successfully.
      *
      * @param taskDescription Description of the Deadline task and its deadline.
@@ -187,6 +188,7 @@ public class TaskList {
         LocalDate deadlineDate = DateParser.getTaskDate(newDeadlineTask.getDeadline());
         newDeadlineTask.setDate(deadlineDate);
 
+        // Updates task description to reflect the formatted date
         if (deadlineDate != null) {
             String newDeadline = DateParser.newDateDescription(newDeadlineTask.getDeadline(), deadlineDate);
             newDeadlineTask.setDeadline(newDeadline);
@@ -200,6 +202,7 @@ public class TaskList {
 
     /**
      * Adds an Event task, with its description and event time filled, into the task list.
+     * If task description contains a string of the form 'yyyy-mm-dd', it would be parsed as a LocalDate object.
      * Prints a message to notify the user if the Event task is added successfully.
      *
      * @param taskDescription Description of the Event task and its event time.
@@ -227,6 +230,7 @@ public class TaskList {
         LocalDate eventDate = DateParser.getTaskDate(newEventTask.getEventTime());
         newEventTask.setDate(eventDate);
 
+        // Updates task description to reflect the formatted date
         if (eventDate != null) {
             String newEventTime = DateParser.newDateDescription(newEventTask.getEventTime(), eventDate);
             newEventTask.setEventTime(newEventTime);
@@ -237,7 +241,11 @@ public class TaskList {
         ui.printTaskAddedMessage(newEventTask, getTaskCount());
     }
 
-    // Given an index, able to mark the task at that index in the tasks arraylist to be done
+    /**
+     * Prints the list of tasks that contains the keyword as specified by the user.
+     *
+     * @param keyword Search keyword to find tasks that contain it.
+     */
     public void findTasksAndPrint(String keyword) {
         ArrayList<Task> foundTaskList = (ArrayList<Task>) tasks.stream()
                 .filter((t) -> t.getDescription().contains(keyword))

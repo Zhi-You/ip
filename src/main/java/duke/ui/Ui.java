@@ -181,6 +181,12 @@ public class Ui {
     }
 
 
+    /**
+     * Prints the list of tasks that contains a keyword in their description.
+     * Notifies user if there is no task contains the keyword they are searching for.
+     *
+     * @param tasks List of tasks containing the keyword in their description.
+     */
     public void printFoundTasks(ArrayList<Task> tasks) {
         printDivider();
         if (tasks.size() == 0) {
