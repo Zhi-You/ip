@@ -12,27 +12,27 @@ There are three types of tasks that you can add to your own task list:
 
 A **Todo** task should be used to keep track of a task without any timing constraints.
 
-A **Deadline** task can be used to keep track of any task with a specific deadline, such as your assignments that are due soon! :zany_face: 
+A **Deadline** task can be used to keep track of any task with a specific deadline.
 
-An **Event** task can be used to keep track of a task that will happen on a specfic date and time! 
+An **Event** task can be used to keep track of a task that will happen on a specfic date and time.
 
 ### Show the tasks on your task list
-You can view the list of tasks that you have anytime while using Duke! :scroll:
+You can view your own list of tasks anytime while using Duke!
 
 ### Find tasks using keyword(s)
-Google search for specific tasks in your task list using keywords that match their descriptions! :monocle_face:
+Search for specific tasks in your task list using keywords that match their descriptions.
 
 ### Mark a task as done
-Feel a sense of satisfaction when you mark a completed task as done! :heavy_check_mark:
+Whenever you are done with a task, mark it as done within your task list!
 
 ### Delete a task from your task list
-You can remove any task that you do not want to track anymore!
+You can remove any task that you do not want to track anymore.
 
 ### Duke understands dates
-Pass in a date in a simple format and Duke will store it for you in a nicer format!  :calendar: 
+Pass in a date in a simple format and Duke will store it for you in a clearer format!
 
 ### Your task list is automatically saved
-You do not have to worry about losing any progress made on Duke as your task list is automatically saved after every action that affects the list! The saved data can be found in `data/tasks.txt`. 
+You do not have to worry about losing any progress made on Duke as your task list is automatically saved after every action that affects the list. The saved data can be found in `data/tasks.txt` relative to the location storing the JAR file for Duke. 
 
 ### Your task list will be loaded automatically on start up
 Of course, all the tasks you have in your task list will always come back to you whenever you start up Duke again!
