@@ -37,6 +37,7 @@ You do not have to worry about losing any progress made on Duke as your task lis
 ### Your task list will be loaded automatically on start up
 Of course, all the tasks you have in your task list will always come back to you whenever you start up Duke again!
 
+
 ## Usage
 
 ### Starting Duke
@@ -73,6 +74,9 @@ If tasks' done status icons appear as `?` for you instead of `✘` and `✓`, ch
 ### `todo` - Adds a Todo task to your task list
 Adds a Todo task into your task list based on the task's description.
 
+
+Format: `todo [task description]`
+
 Example of usage: 
 ```
 todo return book
@@ -94,6 +98,9 @@ Adds a Deadline task into your task list based on the task's description and its
 
 Any date given in the format of `yyyy-mm-dd` (e.g., `2019-10-15`) will be registered in a nicer format of `MMM dd yyyy` (e.g., `Oct 15 2019`).
 
+
+Format: `deadline [task description] /by [deadline]`
+
 Example of usage: 
 ```
 deadline finish math assignment /by 2020-10-10
@@ -113,6 +120,9 @@ ______________________________________________________
 Adds an Event task into your task list based on the task's description and its event timing.
 
 Any date given in the format of `yyyy-mm-dd` (e.g., `2019-10-15`) will be registered in a nicer format of `MMM dd yyyy` (e.g., `Oct 15 2019`).
+
+
+Format: `event [task description] /at [event timing]`
 
 Example of usage: 
 ```
@@ -153,6 +163,9 @@ ______________________________________________________
 ### `find` - Finds tasks based on keyword(s)
 Prints out an indexed list of tasks with descriptions that contain matching sequence of characters with the keyword(s) you specified.
 
+
+Format: `find [keywords]`
+
 Example of usage: 
 ```
 find math
@@ -172,6 +185,8 @@ ______________________________________________________
 Marks the specified task as a completed task and its done status icon will automatically be updated to a tick to reflect this.
 
 You can specify the task using its index in the task list.
+
+Format: `done [task index]`
 
 Example of usage: 
 ```
@@ -201,8 +216,9 @@ ______________________________________________________
 ### `delete` - Deletes a task from your task list
 Removes a task, that you specify, from the task list.
 
-
 You can specify the task using its index in the task list.
+
+Format: `delete [task index]`
 
 Example of usage: 
 ```
