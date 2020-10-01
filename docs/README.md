@@ -1,4 +1,4 @@
-# User Guide
+# [User Guide](https://zhi-you.github.io/ip/)
 Duke can help you **manage and keep track of your tasks** easily through the use of a Command Line Interface.
 
 *Start planning your daily schedule with Duke!*
